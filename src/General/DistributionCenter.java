@@ -315,68 +315,6 @@ public class DistributionCenter {
      * @param packedItems  The list of packed items to be loaded onto vehicles.
      * @param vehicles     The list of vehicles to load the items onto.
      */
-    /*public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
-        int currentItemsPacked = 0;
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.isAvailable()) {
-                for (int i = 0; i < packedItems.size(); i++) {
-                    if (currentItemsPacked >= packedItems.size()) {
-                        break;
-                    }
-                    Object item = packedItems.get(i);
-                    if (item instanceof Pallet) {
-                        if(vehicle instanceof ULC) {
-                            if (((ULC) vehicle).addPallet((Pallet) item)) {
-                                currentItemsPacked++;
-                            }
-                        }
-                    } else if (item instanceof Bag) {
-                        String[] choices = {"DeliveryCart", "AGC"};
-                        Random random = new Random();
-                        String randomChoice = choices[random.nextInt(choices.length)];
-
-                        if (randomChoice.equals("DeliveryCart")) {
-                           if(vehicle instanceof DeliveryCart) {
-                               if (((DeliveryCart) vehicle).addBag((Bag) item)) {
-                                   currentItemsPacked++;
-                               }
-                           }
-                        } else if (randomChoice.equals("AGC")) {
-                               if (vehicle instanceof AGC) {
-                                   if (((AGC) vehicle).addBag((Bag) item)) {
-                                       currentItemsPacked++;
-                                   }
-                               }
-                           }
-                    } else if (item instanceof Box) {
-                        String[] choices = {"DeliveryCart", "AGC"};
-                        Random random = new Random();
-                        String randomChoice = choices[random.nextInt(choices.length)];
-
-                        if (randomChoice.equals("DeliveryCart")) {
-                            if(vehicle instanceof DeliveryCart){
-                                ((DeliveryCart) vehicle).addBox((Box) item);
-                                currentItemsPacked++;
-                            }
-                        } else if (randomChoice.equals("AGC")) {
-                            if(vehicle instanceof AGC){
-                                ((AGC) vehicle).addBox((Box) item);
-                                currentItemsPacked++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for(Vehicle v2 : vehicles){
-            if(v2 instanceof TugVehicle){
-                ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
-            }
-        }
-        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
-                            +"\n- Foram embaladas: " + currentItemsPacked + " embalagens.");
-    }*/
 
     public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
         int currentItemsPacked = 0;
