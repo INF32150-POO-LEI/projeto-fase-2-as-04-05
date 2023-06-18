@@ -392,7 +392,9 @@ public class DistributionCenter {
 
         for(Vehicle v2 : vehicles){
             if(v2 instanceof TugVehicle){
-                ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
+                if(v2.isAvailable()){
+                    ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
+                }
             }
         }
         System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
