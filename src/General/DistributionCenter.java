@@ -97,7 +97,6 @@ public class DistributionCenter {
                         Object packaging = iterator.next();
                         if (packaging instanceof CardBox) {
                             CardBox cardBox = (CardBox) packaging;
-                            if (cardBox.getMaxProducts() != 1) {
                                 if (cardBox.pack(p) == true) {
                                     p.setPackaged(true);
                                     p.setPackagingType(PackagingType.CARD_BOX);
@@ -111,7 +110,6 @@ public class DistributionCenter {
                                     p.setPackagingType(PackagingType.CARD_BOX);
                                     break;
                                 }
-                            }
                         }
                     }
                     if (!foundCardBox) {
