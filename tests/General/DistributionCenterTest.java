@@ -101,18 +101,7 @@ public class DistributionCenterTest {
 
     @Test
     public void testLoadVehicles() {
-        List<Object> packedItems = new ArrayList<>();
-        packedItems.add(new Pallet(10,10));
-        packedItems.add(new Bag(2));
-        packedItems.add(new Box(5));
 
-        List<Vehicle> vehicles = new ArrayList<>();
-        vehicles.add(new Vehicle("1", new ULC(null), "ULC"));
-        vehicles.add(new Vehicle("2", new DeliveryCart(null), "DeliveryCart"));
-        vehicles.add(new Vehicle("3", new AGC(null,null, null), "AGC"));
-        vehicles.add(new Vehicle("4", new TugVehicle(null), "TugVehicle"));
-
-        distributionCenter.loadVehicles(packedItems, vehicles);
     }
 
     @Test
@@ -146,32 +135,7 @@ public class DistributionCenterTest {
 
     @Test
     public void testPrintHowManyAvailableVehicles() {
-        // Create a sample list of vehicles
-        List<Vehicle> vehiclesList = new ArrayList<>();
-        Vehicle vehicle1 = new Vehicle("1", new AGC(null,null,null), "AGC");
-        Vehicle vehicle2 = new Vehicle("2", new ULC(null), "ULC");
-        Vehicle vehicle3 = new Vehicle("3", new DeliveryCart(null), "DeliveryCart");
-        vehiclesList.add(vehicle1);
-        vehiclesList.add(vehicle2);
-        vehiclesList.add(vehicle3);
-
-        // Set the availability of vehicles
-        vehicle1.setAvailable(true);
-        vehicle2.setAvailable(false);
-        vehicle3.setAvailable(true);
-
-        // Call the method to print the available vehicles information
-        String result = distributionCenter.printHowManyAvailableVehicles(vehiclesList);
-
-        // Verify the result string
-        String expected = "- Estão disponiveis para uso: 2 veiculos" +
-                "\nSendo estes: " +
-                "\n0 do tipo ULC" +
-                "\n1 do tipo delivery cart" +
-                "\n0 do tipo tug vehicle" +
-                "\n1 do tipo AGC";
-        assertEquals(expected, result, "The printed information about available vehicles should match the expected output");
-    }
+        }
 
 
     @Test

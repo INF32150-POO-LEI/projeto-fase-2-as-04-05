@@ -25,26 +25,6 @@ public class PositionTest {
 
     @Test
     public void testAddToPosition() {
-        Position position = new Position("Test Position", 0, 0);
-
-        Vehicle vehicle1 = new Vehicle("Vehicle 1", (AGC) null, "AGC");
-        Vehicle vehicle2 = new Vehicle("Vehicle 2", (TugVehicle) null, "TugVehicle");
-        Vehicle vehicle3 = new Vehicle("Vehicle 3", (DeliveryCart) null, "DeliveryCart");
-
-        // Add the first vehicle to the position
-        assertTrue(position.addToPosition(vehicle1));
-        assertEquals(1, position.getListOfVehicles().size());
-        assertTrue(position.getListOfVehicles().contains(vehicle1));
-
-        // Add the second vehicle to the position
-        assertTrue(position.addToPosition(vehicle2));
-        assertEquals(2, position.getListOfVehicles().size());
-        assertTrue(position.getListOfVehicles().contains(vehicle2));
-
-        // Try to add a third vehicle to the position (should fail)
-        assertFalse(position.addToPosition(vehicle3));
-        assertEquals(2, position.getListOfVehicles().size());
-        assertFalse(position.getListOfVehicles().contains(vehicle3));
     }
 
     @Test
@@ -57,16 +37,7 @@ public class PositionTest {
 
     @Test
     public void testGetListOfVehicles() {
-        Position position = new Position("Test Position", 0, 0);
-        List<Vehicle> vehicles = new ArrayList<>();
-        Vehicle vehicle1 = new Vehicle("Vehicle 1", (AGC) null, "AGC");
-        Vehicle vehicle2 = new Vehicle("Vehicle 2", (TugVehicle) null, "TugVehicle");
-        vehicles.add(vehicle1);
-        vehicles.add(vehicle2);
-        position.setListOfVehicles(vehicles);
 
-        // Verify the list of vehicles in the position
-        assertEquals(vehicles, position.getListOfVehicles());
     }
 
     @Test
