@@ -21,9 +21,21 @@ import java.util.stream.Collectors;
 public abstract class Vehicle {
     private Position currentPosition, destination;
     private boolean available = false;
-
     public void setAvailableStatus(boolean status){
         available = status;
+    }
+
+    public Vehicle findVehicle(List<Vehicle> vehicles, Class<?> vehicleType) {
+        Optional<Vehicle> optionalVehicle = vehicles.stream()
+                .filter(vehicle -> vehicleType.isInstance(vehicle))
+                .findFirst();
+
+        // Check if the vehicle was found
+        if (optionalVehicle.isPresent()) {
+            return optionalVehicle.get(); // Return the found vehicle
+        } else {
+            return null; // Vehicle not found
+        }
     }
 
     public boolean isAvailable(){

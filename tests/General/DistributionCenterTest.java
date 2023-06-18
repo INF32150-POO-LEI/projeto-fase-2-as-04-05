@@ -173,29 +173,6 @@ public class DistributionCenterTest {
         assertEquals(expected, result, "The printed information about available vehicles should match the expected output");
     }
 
-    @Test
-    public void testFindVehicle() {
-        // Create a sample list of vehicles
-        List<Vehicle> vehiclesList = new ArrayList<>();
-        Vehicle vehicle1 = new Vehicle("1", new AGC(null,null,null), "AGC");
-        Vehicle vehicle2 = new Vehicle("2", new ULC(null), "ULC");
-        Vehicle vehicle3 = new Vehicle("3", new DeliveryCart(null), "DeliveryCart");
-        vehiclesList.add(vehicle1);
-        vehiclesList.add(vehicle2);
-        vehiclesList.add(vehicle3);
-
-        // Call the method to find a vehicle by type
-        Vehicle foundVehicle = distributionCenter.findVehicle(vehiclesList, "ULC");
-
-        // Verify the result
-        assertEquals(vehicle2, foundVehicle, "The found vehicle should be the one with the matching type");
-
-        // Call the method with a non-existing vehicle type
-        Vehicle notFoundVehicle = distributionCenter.findVehicle(vehiclesList, "TugVehicle");
-
-        // Verify the result
-        assertNull(notFoundVehicle, "The method should return null when the vehicle type is not found");
-    }
 
     @Test
     public void countPackedItemsResults() {

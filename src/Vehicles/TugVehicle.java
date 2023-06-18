@@ -13,7 +13,6 @@ public class TugVehicle extends Vehicle{
     /**
      * Constructs a new TugVehicle object with the specified current position.
      *
-     * @param currentPosition the current position of the tug vehicle
      */
     public TugVehicle() {
         this.towedAGCList = new ArrayList<>();
@@ -28,8 +27,8 @@ public class TugVehicle extends Vehicle{
     public void putDCIntoTugVehicle(List<Vehicle> vehicles) {
         for (Vehicle v : vehicles) {
             if (v instanceof DeliveryCart && v.isAvailable()) {
-                  if((DeliveryCart) v).getCurrentCargo().size() > 0 && towedAGCList.size() == 0){
-                    towedAGCList.add(v.getDc());
+                  if(((DeliveryCart) v).getCurrentCargo().size() > 0 && towedAGCList.size() == 0){
+                    towedAGCList.add((DeliveryCart) v);
                   }
             }
         }
