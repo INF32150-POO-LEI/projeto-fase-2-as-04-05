@@ -296,13 +296,26 @@ public class DistributionCenter {
                 "\n" + agc + " do tipo AGC";
     }
 
+    public Vehicle findVehicle(List<Vehicle> vehicles, Class<?> vehicleType) {
+        Optional<Vehicle> optionalVehicle = vehicles.stream()
+                .filter(vehicle -> vehicleType.isInstance(vehicle) && vehicle.isAvailable())
+                .findFirst();
+
+        // Check if the vehicle was found
+        if (optionalVehicle.isPresent()) {
+            return optionalVehicle.get(); // Return the found vehicle
+        } else {
+            return null; // Vehicle not found
+        }
+    }
+
     /**
      * Loads the packed items onto the available vehicles based on their types.
      *
      * @param packedItems  The list of packed items to be loaded onto vehicles.
      * @param vehicles     The list of vehicles to load the items onto.
      */
-    public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
+    /*public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
         int currentItemsPacked = 0;
         for (Vehicle vehicle : vehicles) {
             if (vehicle.isAvailable()) {
@@ -312,26 +325,29 @@ public class DistributionCenter {
                     }
                     Object item = packedItems.get(i);
                     if (item instanceof Pallet) {
-                        if(vehicle instanceof ULC){
-                            ((ULC) vehicle).addPallet((Pallet) item);
+                        if(vehicle instanceof ULC) {
+                            if (((ULC) vehicle).addPallet((Pallet) item)) {
                                 currentItemsPacked++;
                             }
+                        }
                     } else if (item instanceof Bag) {
                         String[] choices = {"DeliveryCart", "AGC"};
                         Random random = new Random();
                         String randomChoice = choices[random.nextInt(choices.length)];
 
                         if (randomChoice.equals("DeliveryCart")) {
-                           if(vehicle instanceof DeliveryCart){
-                                ((DeliveryCart) vehicle).addBag((Bag) item);
-                                currentItemsPacked++;
-                            }
+                           if(vehicle instanceof DeliveryCart) {
+                               if (((DeliveryCart) vehicle).addBag((Bag) item)) {
+                                   currentItemsPacked++;
+                               }
+                           }
                         } else if (randomChoice.equals("AGC")) {
-                            if(vehicle instanceof AGC){
-                                ((AGC) vehicle).addBag((Bag) item);
-                                currentItemsPacked++;
-                            }
-                        }
+                               if (vehicle instanceof AGC) {
+                                   if (((AGC) vehicle).addBag((Bag) item)) {
+                                       currentItemsPacked++;
+                                   }
+                               }
+                           }
                     } else if (item instanceof Box) {
                         String[] choices = {"DeliveryCart", "AGC"};
                         Random random = new Random();
@@ -358,7 +374,85 @@ public class DistributionCenter {
                 ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
             }
         }
-        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios.");
+        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
+                            +"\n- Foram embaladas: " + currentItemsPacked + " embalagens.");
+    }*/
+
+    public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
+        int currentItemsPacked = 0;
+        Vehicle foundVehicle = null;
+
+                for (int i = 0; i < packedItems.size(); i++) {
+                    if (currentItemsPacked >= packedItems.size()) {
+                        break;
+                    }
+
+                    Object item = packedItems.get(i);
+                    if (item instanceof Pallet) {
+                            foundVehicle = findVehicle(vehicles, ULC.class);
+                            if(foundVehicle != null) {
+                                if (((ULC) foundVehicle).addPallet((Pallet) item)) {
+                                    currentItemsPacked++;
+                                }
+                            }
+                            continue;
+                        }
+                    if (item instanceof Bag) {
+                        String[] choices = {"DeliveryCart", "AGC"};
+                        Random random = new Random();
+                        String randomChoice = choices[random.nextInt(choices.length)];
+
+                        if (randomChoice.equals("DeliveryCart")) {
+                            foundVehicle = findVehicle(vehicles, DeliveryCart.class);
+                            if(foundVehicle != null) {
+                                    if (((DeliveryCart) foundVehicle).addBag((Bag) item)) {
+                                        currentItemsPacked++;
+                                    }
+                              }
+                            continue;
+                            }
+                        else if (randomChoice.equals("AGC")) {
+                            foundVehicle = findVehicle(vehicles, AGC.class);
+                            if(foundVehicle != null) {
+                                    if (((AGC) foundVehicle).addBag((Bag) item)) {
+                                        currentItemsPacked++;
+                                    }
+                              }
+                            continue;
+                            }
+                        }
+                    if (item instanceof Box) {
+                        String[] choices = {"DeliveryCart", "AGC"};
+                        Random random = new Random();
+                        String randomChoice = choices[random.nextInt(choices.length)];
+
+                        if (randomChoice.equals("DeliveryCart")) {
+                            foundVehicle = findVehicle(vehicles, DeliveryCart.class);
+                            if(foundVehicle != null) {
+                                    ((DeliveryCart) foundVehicle).addBox((Box) item);
+                                    currentItemsPacked++;
+                                }
+                            continue;
+                            }
+                        else if (randomChoice.equals("AGC")) {
+                            foundVehicle = findVehicle(vehicles, AGC.class);
+                            if (foundVehicle != null) {
+                                    ((AGC) foundVehicle).addBox((Box) item);
+                                    currentItemsPacked++;
+                             }
+                            continue;
+                           }
+                        }
+                    }
+
+
+        for(Vehicle v2 : vehicles){
+            if(v2 instanceof TugVehicle){
+                ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
+            }
+        }
+        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
+                +"\n- Sobraram: " + (packedItems.size()-currentItemsPacked) + " embalagens.");
     }
 
     /**
@@ -383,7 +477,7 @@ public class DistributionCenter {
                 bags++;
             }
         }
-        return pallets + " pallets (Cada pallet tem 100kg de peso máximo e um máximo de 10 caixas de madeira tendo cada caixa de madeira presente um peso máximo de 10kg)" + "\n" + bags + " bags (Cada bag tem um peso máximo de 2kg)" + "\n" + boxes + " boxes (Cada caixa tem um máximo de 5kg)" + "\n";
+        return "\nTotal de embalagens: " + (pallets+boxes+bags) + "\n" + pallets + " pallets (Cada pallet tem 100kg de peso máximo e um máximo de 10 caixas de madeira tendo cada caixa de madeira presente um peso máximo de 10kg)" + "\n" + bags + " bags (Cada bag tem um peso máximo de 2kg)" + "\n" + boxes + " boxes (Cada caixa tem um máximo de 5kg)" + "\n";
     }
 
     /**

@@ -27,8 +27,8 @@ public class TugVehicle extends Vehicle{
     public void putDCIntoTugVehicle(List<Vehicle> vehicles) {
         for (Vehicle v : vehicles) {
             if (v instanceof DeliveryCart && v.isAvailable()) {
-                  if(((DeliveryCart) v).getCurrentCargo().size() > 0 && towedAGCList.size() == 0){
-                    towedAGCList.add((DeliveryCart) v);
+                  if(((DeliveryCart) v).getCurrentCargo().size() > 0 && getTowedAGCList().size() == 0){
+                    getTowedAGCList().add((DeliveryCart) v);
                   }
             }
         }

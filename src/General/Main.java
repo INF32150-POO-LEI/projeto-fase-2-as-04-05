@@ -32,16 +32,16 @@ public class Main {
         System.out.println("\n- Os produtos foram embalados, dando origem a: \n" + distributionCenter.countPackedItemsResults(packedItems));
 
         distributionCenter.loadVehicles(packedItems, vehicles);
-        Scanner scanner = new Scanner(System.in);
+       // Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Digite o tipo de veículo que deseja mexer (ulc, dc, tugv, agc): ");
+       /* System.out.println("Digite o tipo de veículo que deseja mexer (ulc, dc, tugv, agc): ");
         String vehicleType = scanner.nextLine();
 
         System.out.println("Digite até que posição deseja mexer o veículo (x,y): ");
         String positionInput = scanner.nextLine();
         String[] positionValues = positionInput.split(",");
         int x = Integer.parseInt(positionValues[0]);
-        int y = Integer.parseInt(positionValues[1]);
+        int y = Integer.parseInt(positionValues[1]);*/
 
     }
 }

@@ -1,18 +1,8 @@
 package Vehicles;
 
 import General.Position;
-import Product.Bag;
-import Product.Box;
-import Product.Pallet;
-import Vehicles.AGC;
-import Vehicles.DeliveryCart;
-import Vehicles.TugVehicle;
-import Vehicles.ULC;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Represents a vehicle with a unique ID, vehicle type, and associated equipment.
@@ -23,19 +13,6 @@ public abstract class Vehicle {
     private boolean available = false;
     public void setAvailableStatus(boolean status){
         available = status;
-    }
-
-    public Vehicle findVehicle(List<Vehicle> vehicles, Class<?> vehicleType) {
-        Optional<Vehicle> optionalVehicle = vehicles.stream()
-                .filter(vehicle -> vehicleType.isInstance(vehicle))
-                .findFirst();
-
-        // Check if the vehicle was found
-        if (optionalVehicle.isPresent()) {
-            return optionalVehicle.get(); // Return the found vehicle
-        } else {
-            return null; // Vehicle not found
-        }
     }
 
     public boolean isAvailable(){

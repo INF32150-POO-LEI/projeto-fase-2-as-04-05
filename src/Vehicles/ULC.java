@@ -31,7 +31,7 @@ public class ULC extends Vehicle {
      * @return true if the pallet was added successfully, false otherwise
      */
     public boolean addPallet(Pallet p){
-        if(currentCargo.size() < MAX_PALLETS){
+        if(currentCargo.size() <= MAX_PALLETS){
             currentCargo.add(p);
             return true;
         }
