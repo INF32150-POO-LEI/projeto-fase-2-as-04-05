@@ -61,7 +61,7 @@ public class DistributionCenter {
                     p.setPackaged(true);
                     p.setPackagingType(PackagingType.BAG);
                 }
-                if (chosenPackage == PackagingType.BOX) {
+                else if (chosenPackage == PackagingType.BOX) {
                     if (!p.getProductType().equals(ProductType.CLOTHING)) {
                         Box box = new Box(5);
                         box.pack(p);
@@ -90,7 +90,7 @@ public class DistributionCenter {
                     p.setPackaged(true);
                     p.setPackagingType(PackagingType.BAG);
                 }
-                if (chosenPackage.equals(PackagingType.CARD_BOX)) {
+                else if (chosenPackage.equals(PackagingType.CARD_BOX)) {
                     boolean foundCardBox = false;
                     Iterator iterator = packedItems.iterator();
                     while (iterator.hasNext()) {
@@ -139,9 +139,7 @@ public class DistributionCenter {
             }
         }
 
-
         addCardBoxesToPallets(packedItems);
-        //packedItems.addAll(newPallets);
         return packedItems;
     }
 
@@ -151,21 +149,23 @@ public class DistributionCenter {
             for (Object o : new ArrayList<>(packedItems)) {
                 if (o instanceof CardBox) {
                     CardBox c = (CardBox) o;
-                    if (!c.getPacked()) {
+                    if (!c.getPutIntoPallet()) {
                         if (pallet.pack(c)) {
-                            c.setPacked(true);
+                            c.putIntoPallet(true);
                             packedItems.remove(c);
                         } else {
+                            packedItems.add(pallet);
                             addCardBoxesToPallets(packedItems);
-                            break; // Terminate the loop since the recursive call handles the remaining items
+                            break;
                         }
                     }
                 }
             }
-            packedItems.add(pallet);
         }
     }
-    
+
+
+
     public int countCardBoxes(List packedItems){
          int total = 0;
          for(Object o : packedItems){

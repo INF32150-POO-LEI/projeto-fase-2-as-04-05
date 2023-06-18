@@ -13,8 +13,7 @@ public class CardBox implements Packaging {
     private int maxProducts;
     private int currentProducts;
     private int code;
-
-    private boolean packed = false;
+    private boolean putIntoPallet = false;
 
     /**
      * Creates a new instance of the `CardBox` class with the specified maximum weight and maximum number of products.
@@ -31,12 +30,12 @@ public class CardBox implements Packaging {
         this.productsInTheBox = new ArrayList<>();
     }
 
-    public void setPacked(boolean packed) {
-        this.packed = packed;
+    public void putIntoPallet(boolean putIntoPallet) {
+        this.putIntoPallet = putIntoPallet;
     }
 
-    public boolean getPacked() {
-        return packed;
+    public boolean getPutIntoPallet() {
+        return putIntoPallet;
     }
     /**
      * Returns the current weight of the card box.
