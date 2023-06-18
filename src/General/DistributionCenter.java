@@ -45,130 +45,136 @@ public class DistributionCenter {
      * @return A list of packed items.
      */
     public List packProducts(List<Product> products) {
-         List packedItems = new ArrayList<>();
-         Pallet pallet = new Pallet(100, 10);
-         packedItems.add(pallet);
+        List packedItems = new ArrayList<>();
 
-         for (Product p : products) {
-             if (p.getProductType().equals(ProductType.CLOTHING) || p.getProductType().equals(ProductType.ACCESSORY)) {
-                 PackagingType[] packagingOptions = {PackagingType.BOX, PackagingType.BAG};
-                 Random random = new Random();
-                 int randomIndex = random.nextInt(packagingOptions.length);
-                 PackagingType chosenPackage = packagingOptions[randomIndex];
+        for (Product p : products) {
+            if (p.getProductType().equals(ProductType.CLOTHING) || p.getProductType().equals(ProductType.ACCESSORY)) {
+                PackagingType[] packagingOptions = {PackagingType.BOX, PackagingType.BAG};
+                Random random = new Random();
+                int randomIndex = random.nextInt(packagingOptions.length);
+                PackagingType chosenPackage = packagingOptions[randomIndex];
 
-                 if (chosenPackage.equals(PackagingType.BAG)) {
-                     Bag bag = new Bag(2);
-                     bag.pack(p);
-                     packedItems.add(bag);
-                     p.setPackaged(true);
-                     p.setPackagingType(PackagingType.BAG);
-                 } else if (chosenPackage == PackagingType.BOX) {
-                     if (!p.getProductType().equals(ProductType.CLOTHING)) {
-                         Box box = new Box(5);
-                         box.pack(p);
-                         packedItems.add(box);
-                         p.setPackaged(true);
-                         p.setPackagingType(PackagingType.BOX);
-                     } else {
-                         Bag bag = new Bag(2);
-                         bag.pack(p);
-                         packedItems.add(bag);
-                         p.setPackaged(true);
-                         p.setPackagingType(PackagingType.BAG);
-                     }
-                 }
-             } else if (p.getProductType().equals(ProductType.SMALL_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.SMALL_TOY)) {
-                 PackagingType[] packagingOptions = {PackagingType.CARD_BOX, PackagingType.BAG};
-                 Random random = new Random();
-                 int randomIndex = random.nextInt(packagingOptions.length);
-                 PackagingType chosenPackage = packagingOptions[randomIndex];
+                if (chosenPackage.equals(PackagingType.BAG)) {
+                    Bag bag = new Bag(2);
+                    bag.pack(p);
+                    packedItems.add(bag);
+                    p.setPackaged(true);
+                    p.setPackagingType(PackagingType.BAG);
+                }
+                if (chosenPackage == PackagingType.BOX) {
+                    if (!p.getProductType().equals(ProductType.CLOTHING)) {
+                        Box box = new Box(5);
+                        box.pack(p);
+                        packedItems.add(box);
+                        p.setPackaged(true);
+                        p.setPackagingType(PackagingType.BOX);
+                    } else {
+                        Bag bag = new Bag(2);
+                        bag.pack(p);
+                        packedItems.add(bag);
+                        p.setPackaged(true);
+                        p.setPackagingType(PackagingType.BAG);
+                    }
+                }
+            }
+            if (p.getProductType().equals(ProductType.SMALL_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.SMALL_TOY)) {
+                PackagingType[] packagingOptions = {PackagingType.CARD_BOX, PackagingType.BAG};
+                Random random = new Random();
+                int randomIndex = random.nextInt(packagingOptions.length);
+                PackagingType chosenPackage = packagingOptions[randomIndex];
 
-                 if (chosenPackage.equals(PackagingType.BAG)) {
-                     Bag bag = new Bag(2);
-                     bag.pack(p);
-                     packedItems.add(bag);
-                     p.setPackaged(true);
-                     p.setPackagingType(PackagingType.BAG);
-                 } else if (chosenPackage.equals(PackagingType.CARD_BOX)) {
-                     boolean foundCardBox = false;
-                     Iterator iterator = packedItems.iterator();
-                     while (iterator.hasNext()) {
-                         Object packaging = iterator.next();
-                         if (packaging instanceof CardBox) {
-                             CardBox cardBox = (CardBox) packaging;
-                             if (cardBox.getMaxProducts() != 1){
-                                 if(cardBox.pack(p) == true){
-                                     p.setPackaged(true);
-                                     p.setPackagingType(PackagingType.CARD_BOX);
-                                     foundCardBox = true;
-                                     break;
-                                 }
-                                 else if(cardBox.pack(p) == false){
-                                     CardBox cardBox2 = new CardBox(10, 10);
-                                     cardBox.pack(p);
-                                     packedItems.add(cardBox2);
-                                     p.setPackaged(true);
-                                     p.setPackagingType(PackagingType.CARD_BOX);
-                                     break;
-                                 }
-                             }
-                         }
-                     }
-                     if (!foundCardBox) {
-                         CardBox cardBox = new CardBox(10, 10);
-                         cardBox.pack(p);
-                         packedItems.add(cardBox);
-                         p.setPackaged(true);
-                         p.setPackagingType(PackagingType.CARD_BOX);
-                     }
-                 }
-             } else if (p.getProductType().equals(ProductType.BOOK)) {
-                 Box box = new Box(5);
-                 box.pack(p);
-                 packedItems.add(box);
-                 p.setPackaged(true);
-                 p.setPackagingType(PackagingType.BOX);
-             } else if (p.getProductType().equals(ProductType.LARGE_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.LARGE_TOY)) {
-                 CardBox cardBox = new CardBox(10, 1);
-                 cardBox.pack(p);
-                 packedItems.add(cardBox);
-                 p.setPackaged(true);
-                 p.setPackagingType(PackagingType.CARD_BOX);
+                if (chosenPackage.equals(PackagingType.BAG)) {
+                    Bag bag = new Bag(2);
+                    bag.pack(p);
+                    packedItems.add(bag);
+                    p.setPackaged(true);
+                    p.setPackagingType(PackagingType.BAG);
+                }
+                if (chosenPackage.equals(PackagingType.CARD_BOX)) {
+                    boolean foundCardBox = false;
+                    Iterator iterator = packedItems.iterator();
+                    while (iterator.hasNext()) {
+                        Object packaging = iterator.next();
+                        if (packaging instanceof CardBox) {
+                            CardBox cardBox = (CardBox) packaging;
+                            if (cardBox.getMaxProducts() != 1) {
+                                if (cardBox.pack(p) == true) {
+                                    p.setPackaged(true);
+                                    p.setPackagingType(PackagingType.CARD_BOX);
+                                    foundCardBox = true;
+                                    break;
+                                } else if (cardBox.pack(p) == false) {
+                                    CardBox cardBox2 = new CardBox(10, 10);
+                                    cardBox.pack(p);
+                                    packedItems.add(cardBox2);
+                                    p.setPackaged(true);
+                                    p.setPackagingType(PackagingType.CARD_BOX);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!foundCardBox) {
+                        CardBox cardBox = new CardBox(10, 10);
+                        cardBox.pack(p);
+                        packedItems.add(cardBox);
+                        p.setPackaged(true);
+                        p.setPackagingType(PackagingType.CARD_BOX);
+                    }
+                }
+            }
+            if (p.getProductType().equals(ProductType.BOOK)) {
+                Box box = new Box(5);
+                box.pack(p);
+                packedItems.add(box);
+                p.setPackaged(true);
+                p.setPackagingType(PackagingType.BOX);
+            }
+            if (p.getProductType().equals(ProductType.LARGE_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.LARGE_TOY)) {
+                CardBox cardBox = new CardBox(10, 1);
+                cardBox.pack(p);
+                packedItems.add(cardBox);
+                p.setPackaged(true);
+                p.setPackagingType(PackagingType.CARD_BOX);
+            }
+        }
+
+
+        addCardBoxesToPallets(packedItems);
+        //packedItems.addAll(newPallets);
+        return packedItems;
+    }
+
+    public void addCardBoxesToPallets(List<Object> packedItems) {
+        if (countCardBoxes(packedItems) > 0) {
+            Pallet pallet = new Pallet(100, 10);
+            for (Object o : new ArrayList<>(packedItems)) {
+                if (o instanceof CardBox) {
+                    CardBox c = (CardBox) o;
+                    if (!c.getPacked()) {
+                        if (pallet.pack(c)) {
+                            c.setPacked(true);
+                            packedItems.remove(c);
+                        } else {
+                            addCardBoxesToPallets(packedItems);
+                            break; // Terminate the loop since the recursive call handles the remaining items
+                        }
+                    }
+                }
+            }
+            packedItems.add(pallet);
+        }
+    }
+    
+    public int countCardBoxes(List packedItems){
+         int total = 0;
+         for(Object o : packedItems){
+             if (o instanceof CardBox){
+                 total++;
              }
          }
-
-         List<Pallet> newPallets = new ArrayList<>();
-         Iterator<Object> iterator = packedItems.iterator();
-
-         while (iterator.hasNext()) {
-             Object c = iterator.next();
-
-             if (c instanceof CardBox) {
-                 boolean packed = false;
-
-                 for (Object d : packedItems) {
-                     if (d instanceof Pallet) {
-                         if (((Pallet) d).pack((CardBox) c)) {
-                             iterator.remove();
-                             packed = true;
-                             break;
-                         }
-                     }
-                 }
-
-                 if (!packed) {
-                     Pallet pallet2 = new Pallet(100, 10);
-                     pallet2.pack((CardBox) c);
-                     newPallets.add(pallet2);
-                     iterator.remove();
-                 }
-             }
-         }
-
-         packedItems.addAll(newPallets);
-         return packedItems;
+         return total;
      }
-
     /**
      * Creates the distribution center by initializing the positions and shelves within it.
      * This method sets up the layout of the distribution center with walls, shelves, floors, and designated areas.
