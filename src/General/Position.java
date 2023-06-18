@@ -14,7 +14,7 @@ public class Position {
     private int x;
     private int y;
     private String name;
-    private static int MAX_VEHICLES = 2;
+    private static int MAX_VEHICLES = 1;
     private List<Vehicle> listOfVehicles; //in current position
 
     /**
@@ -83,7 +83,7 @@ public class Position {
      * @return True if the vehicle was successfully added, False otherwise
      */
     public boolean addToPosition(Vehicle vehicle){
-        if(listOfVehicles.size() < 2){
+        if(listOfVehicles.size() < MAX_VEHICLES){
             listOfVehicles.add(vehicle);
             return true;
         }

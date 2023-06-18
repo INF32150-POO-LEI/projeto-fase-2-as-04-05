@@ -7,18 +7,17 @@ import java.util.List;
 /**
  * Represents a tug vehicle.
  */
-public class TugVehicle{
+public class TugVehicle extends Vehicle{
     private List<DeliveryCart> towedAGCList;
-    private Position currentPosition;
 
     /**
      * Constructs a new TugVehicle object with the specified current position.
      *
      * @param currentPosition the current position of the tug vehicle
      */
-    public TugVehicle(Position currentPosition) {
+    public TugVehicle() {
         this.towedAGCList = new ArrayList<>();
-        this.currentPosition = currentPosition;
+
     }
 
     /**
@@ -28,8 +27,8 @@ public class TugVehicle{
      */
     public void putDCIntoTugVehicle(List<Vehicle> vehicles) {
         for (Vehicle v : vehicles) {
-            if (v.getVehicleType().equals("DeliveryCart") && v.isAvailable()) {
-                  if(v.getDc().getCurrentCargo().size() > 0 && towedAGCList.size() == 0){
+            if (v instanceof DeliveryCart && v.isAvailable()) {
+                  if((DeliveryCart) v).getCurrentCargo().size() > 0 && towedAGCList.size() == 0){
                     towedAGCList.add(v.getDc());
                   }
             }
@@ -46,30 +45,12 @@ public class TugVehicle{
     }
 
     /**
-     * Gets the current position of the tug vehicle.
-     *
-     * @return the current position
-     */
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    /**
      * Sets the list of towed AGCs (Automated Guided Carts).
      *
      * @param towedAGCList the list of towed AGCs to be set
      */
     public void setTowedAGCList(List<DeliveryCart> towedAGCList) {
         this.towedAGCList = towedAGCList;
-    }
-
-    /**
-     * Sets the current position of the AGC.
-     *
-     * @param currentPosition the current position to be set
-     */
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
     }
 
 

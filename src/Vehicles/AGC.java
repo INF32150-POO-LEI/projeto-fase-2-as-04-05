@@ -9,25 +9,16 @@ import java.util.List;
 /**
  * Represents an Automated Guided Cart (AGC).
  */
-public class AGC{
+public class AGC extends Vehicle{
     private static final int MAX_WEIGHT = 100;
-    private Position currentPosition;
-    private Position pickupLocation;
-    private Position deliveryLocation;
     private int currentWeight = 0;
     private List currentCargo;
 
     /**
      * Constructs a new AGC object with the specified positions.
-     *
-     * @param currentPosition  the current position of the AGC
-     * @param pickupLocation   the pickup location of the AGC
-     * @param deliveryLocation the delivery location of the AGC
      */
-    public AGC(Position currentPosition, Position pickupLocation, Position deliveryLocation) {
-        this.pickupLocation = pickupLocation;
-        this.currentPosition = currentPosition;
-        this.deliveryLocation = deliveryLocation;
+    public AGC() {
+        super();
         this.currentCargo = new ArrayList<>();
     }
 
@@ -65,32 +56,6 @@ public class AGC{
         }
     }
 
-    /**
-     * Gets the current position of the AGC.
-     *
-     * @return the current position
-     */
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    /**
-     * Gets the pickup location of the AGC.
-     *
-     * @return the pickup location
-     */
-    public Position getPickupLocation() {
-        return pickupLocation;
-    }
-
-    /**
-     * Gets the delivery location of the AGC.
-     *
-     * @return the delivery location
-     */
-    public Position getDeliveryLocation() {
-        return deliveryLocation;
-    }
 
     /**
      * Gets the current weight of the AGC's cargo.
@@ -108,18 +73,6 @@ public class AGC{
      */
     public List getCurrentCargo() {
         return currentCargo;
-    }
-
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public void setPickupLocation(Position pickupLocation) {
-        this.pickupLocation = pickupLocation;
-    }
-
-    public void setDeliveryLocation(Position deliveryLocation) {
-        this.deliveryLocation = deliveryLocation;
     }
 
     public void setCurrentWeight(int currentWeight) {

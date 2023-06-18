@@ -92,26 +92,23 @@ public class VehiclesCSV implements CSV {
             e.printStackTrace();
         }
 
+
         for (int i = 0; i < data.length; i++) {
                 if(data[i][1].equals("AGC")){
-                    AGC agc = new AGC(null, null, null);
-                    Vehicle newVehicle = new Vehicle(data[i][0],agc,data[i][1]);
-                    vehicles.add(newVehicle);
+                    AGC agc = new AGC();
+                    vehicles.add(agc);
                 }
                 else if(data[i][1].equals("DeliveryCart")){
-                    DeliveryCart deliveryCart = new DeliveryCart(null);
-                    Vehicle newVehicle = new Vehicle(data[i][0], deliveryCart,data[i][1]);
-                    vehicles.add(newVehicle);
+                    DeliveryCart deliveryCart = new DeliveryCart();
+                    vehicles.add(deliveryCart);
                 }
                 else if(data[i][1].equals("TugVehicle")){
-                    TugVehicle tugVehicle = new TugVehicle(null);
-                    Vehicle newVehicle = new Vehicle(data[i][0], tugVehicle,data[i][1]);
-                    vehicles.add(newVehicle);
+                    TugVehicle tugVehicle = new TugVehicle();
+                    vehicles.add(tugVehicle);
                 }
                 else if(data[i][1].equals("ULC")){
-                    ULC ulc = new ULC(null);
-                    Vehicle newVehicle = new Vehicle(data[i][0], ulc,data[i][1]);
-                    vehicles.add(newVehicle);
+                    ULC ulc = new ULC();
+                    vehicles.add(ulc);
                 }
             }
 

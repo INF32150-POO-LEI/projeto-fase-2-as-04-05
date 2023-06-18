@@ -26,7 +26,7 @@ public class Main {
         List<Shelf> shelves = distributionCenter.getShelves();
         List<Vehicle> vehicles = vehiclesFile.readFromCSV();
         List<Position> positions = distributionCenter.getPositionsList();
-        vehicles = distributionCenter.setVehiclesStartingPositions(vehicles, positions);
+        distributionCenter.setVehiclesStartingPositions(vehicles, positions);
         System.out.println(distributionCenter.printHowManyAvailableVehicles(vehicles));
         List packedItems = distributionCenter.packProducts(productList);
         System.out.println("\n- Os produtos foram embalados, dando origem a: \n" + distributionCenter.countPackedItemsResults(packedItems));

@@ -9,30 +9,17 @@ import java.util.List;
 /**
  * Represents a delivery cart.
  */
-public class DeliveryCart {
+public class DeliveryCart extends Vehicle {
     private static final int MAX_WEIGHT = 200;
-    private Position currentPosition;
     private int currentWeight;
     private List currentCargo;
 
     /**
      * Constructs a new DeliveryCart object with the specified current position.
-     *
-     * @param currentPosition the current position of the delivery cart
      */
-    public DeliveryCart(Position currentPosition) {
-        this.currentPosition = currentPosition;
+    public DeliveryCart() {
         this.currentCargo = new ArrayList<>();
         this.currentWeight = 0;
-    }
-
-    /**
-     * Gets the current position of the delivery cart.
-     *
-     * @return the current position
-     */
-    public Position getCurrentPosition() {
-        return currentPosition;
     }
 
     /**
@@ -94,15 +81,6 @@ public class DeliveryCart {
      */
     public int getCurrentWeight() {
         return currentWeight;
-    }
-
-    /**
-     * Sets the current position of the delivery cart.
-     *
-     * @param currentPosition the current position to be set
-     */
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
     }
 
     /**

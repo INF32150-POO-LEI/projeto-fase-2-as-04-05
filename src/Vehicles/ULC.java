@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents an Unit Load Carrier (ULC).
  */
-public class ULC {
+public class ULC extends Vehicle {
     private List<Position> path;
     private List<Pallet> currentCargo;
     private static final int MAX_PALLETS = 1;
@@ -17,11 +17,10 @@ public class ULC {
     /**
      * Constructs a new ULC object with the specified current position.
      *
-     * @param currentPosition the current position of the ULC
      */
-    public ULC(Position currentPosition) {
+    public ULC() {
+        super();
         this.path = new ArrayList<>();
-        this.currentPosition = currentPosition;
         this.currentCargo = new ArrayList<>();
     }
 
