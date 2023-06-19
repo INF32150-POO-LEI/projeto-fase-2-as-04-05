@@ -44,8 +44,8 @@ public class DistributionCenter {
      * @param products The list of products to pack.
      * @return A list of packed items.
      */
-    public List packProducts(List<Product> products) {
-        List packedItems = new ArrayList<>();
+    public List<Object> packProducts(List<Product> products) {
+        List<Object> packedItems = new ArrayList<>();
 
         for (Product p : products) {
             if (p.getProductType().equals(ProductType.CLOTHING) || p.getProductType().equals(ProductType.ACCESSORY)) {
@@ -58,26 +58,12 @@ public class DistributionCenter {
                     Bag bag = new Bag(2);
                     bag.pack(p);
                     packedItems.add(bag);
-                    p.setPackaged(true);
-                    p.setPackagingType(PackagingType.BAG);
+                } else if (chosenPackage.equals(PackagingType.BOX)) {
+                    Box box = new Box(5);
+                    box.pack(p);
+                    packedItems.add(box);
                 }
-                else if (chosenPackage == PackagingType.BOX) {
-                    if (!p.getProductType().equals(ProductType.CLOTHING)) {
-                        Box box = new Box(5);
-                        box.pack(p);
-                        packedItems.add(box);
-                        p.setPackaged(true);
-                        p.setPackagingType(PackagingType.BOX);
-                    } else {
-                        Bag bag = new Bag(2);
-                        bag.pack(p);
-                        packedItems.add(bag);
-                        p.setPackaged(true);
-                        p.setPackagingType(PackagingType.BAG);
-                    }
-                }
-            }
-            if (p.getProductType().equals(ProductType.SMALL_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.SMALL_TOY)) {
+            } else if (p.getProductType().equals(ProductType.SMALL_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.SMALL_TOY)) {
                 PackagingType[] packagingOptions = {PackagingType.CARD_BOX, PackagingType.BAG};
                 Random random = new Random();
                 int randomIndex = random.nextInt(packagingOptions.length);
@@ -87,59 +73,49 @@ public class DistributionCenter {
                     Bag bag = new Bag(2);
                     bag.pack(p);
                     packedItems.add(bag);
-                    p.setPackaged(true);
-                    p.setPackagingType(PackagingType.BAG);
+                } else if (chosenPackage.equals(PackagingType.CARD_BOX)) {
+                    addToCardBoxes(packedItems, p);
                 }
-                else if (chosenPackage.equals(PackagingType.CARD_BOX)) {
-                    boolean foundCardBox = false;
-                    Iterator iterator = packedItems.iterator();
-                    while (iterator.hasNext()) {
-                        Object packaging = iterator.next();
-                        if (packaging instanceof CardBox) {
-                            CardBox cardBox = (CardBox) packaging;
-                                if (cardBox.pack(p) == true) {
-                                    p.setPackaged(true);
-                                    p.setPackagingType(PackagingType.CARD_BOX);
-                                    foundCardBox = true;
-                                    break;
-                                } else if (cardBox.pack(p) == false) {
-                                    CardBox cardBox2 = new CardBox(10, 10);
-                                    cardBox.pack(p);
-                                    packedItems.add(cardBox2);
-                                    p.setPackaged(true);
-                                    p.setPackagingType(PackagingType.CARD_BOX);
-                                    break;
-                                }
-                        }
-                    }
-                    if (!foundCardBox) {
-                        CardBox cardBox = new CardBox(10, 10);
-                        cardBox.pack(p);
-                        packedItems.add(cardBox);
-                        p.setPackaged(true);
-                        p.setPackagingType(PackagingType.CARD_BOX);
-                    }
-                }
-            }
-            if (p.getProductType().equals(ProductType.BOOK)) {
+            } else if (p.getProductType().equals(ProductType.BOOK)) {
                 Box box = new Box(5);
                 box.pack(p);
                 packedItems.add(box);
-                p.setPackaged(true);
-                p.setPackagingType(PackagingType.BOX);
-            }
-            if (p.getProductType().equals(ProductType.LARGE_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.LARGE_TOY)) {
+            } else if (p.getProductType().equals(ProductType.LARGE_ELECTRONIC_EQUIPMENT) || p.getProductType().equals(ProductType.LARGE_TOY)) {
                 CardBox cardBox = new CardBox(10, 1);
                 cardBox.pack(p);
                 packedItems.add(cardBox);
-                p.setPackaged(true);
-                p.setPackagingType(PackagingType.CARD_BOX);
             }
         }
 
         addCardBoxesToPallets(packedItems);
         return packedItems;
     }
+
+
+    public void addToCardBoxes(List<Object> packedItems, Product p) {
+        boolean addedToExistingCardBox = false;
+
+        for (Object o : packedItems) {
+            if (o instanceof CardBox) {
+                CardBox cardBox = (CardBox) o;
+                if (cardBox.getMaxProducts() == 10 && cardBox.pack(p)) {
+                    p.setPackaged(true);
+                    p.setPackagingType(PackagingType.CARD_BOX);
+                    addedToExistingCardBox = true;
+                    break;
+                }
+            }
+        }
+
+        if (!addedToExistingCardBox) {
+            CardBox newCardBox = new CardBox(10, 10);
+            newCardBox.pack(p);
+            p.setPackaged(true);
+            p.setPackagingType(PackagingType.CARD_BOX);
+            packedItems.add(newCardBox);
+        }
+    }
+
 
     public void addCardBoxesToPallets(List<Object> packedItems) {
         if (countCardBoxes(packedItems) > 0) {
@@ -173,6 +149,19 @@ public class DistributionCenter {
          }
          return total;
      }
+
+    public int countCardBoxesWithMax10P(List packedItems){
+        int total = 0;
+        for(Object o : packedItems){
+            if (o instanceof CardBox){
+                CardBox c = (CardBox) o;
+                if(c.getMaxProducts() == 10){
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
     /**
      * Creates the distribution center by initializing the positions and shelves within it.
      * This method sets up the layout of the distribution center with walls, shelves, floors, and designated areas.
