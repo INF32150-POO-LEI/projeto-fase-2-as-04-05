@@ -91,7 +91,6 @@ public class DistributionCenter {
         return packedItems;
     }
 
-
     public void addToCardBoxes(List<Object> packedItems, Product p) {
         boolean addedToExistingCardBox = false;
 
@@ -116,7 +115,6 @@ public class DistributionCenter {
         }
     }
 
-
     public void addCardBoxesToPallets(List<Object> packedItems) {
         if (countCardBoxes(packedItems) > 0) {
             Pallet pallet = new Pallet(100, 10);
@@ -138,8 +136,6 @@ public class DistributionCenter {
         }
     }
 
-
-
     public int countCardBoxes(List packedItems){
          int total = 0;
          for(Object o : packedItems){
@@ -149,19 +145,7 @@ public class DistributionCenter {
          }
          return total;
      }
-
-    public int countCardBoxesWithMax10P(List packedItems){
-        int total = 0;
-        for(Object o : packedItems){
-            if (o instanceof CardBox){
-                CardBox c = (CardBox) o;
-                if(c.getMaxProducts() == 10){
-                    total++;
-                }
-            }
-        }
-        return total;
-    }
+     
     /**
      * Creates the distribution center by initializing the positions and shelves within it.
      * This method sets up the layout of the distribution center with walls, shelves, floors, and designated areas.
