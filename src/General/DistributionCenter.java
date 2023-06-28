@@ -152,7 +152,7 @@ public class DistributionCenter {
      * It also populates the shelves list with the created shelves.
      * Lastly, it converts the position matrix to a list and prints the storage matrix.
      */
-    public void createDistributionCenter(){
+    public Position[][] createDistributionCenter(){
         Position[][] positions;
         positions = new Position[y][x]; // linhas | colunas
 
@@ -188,6 +188,7 @@ public class DistributionCenter {
         }
         positionsList = positionMatrixToList(positions);
         printStorageMatrix(positions);
+        return positions;
     }
 
     /**
