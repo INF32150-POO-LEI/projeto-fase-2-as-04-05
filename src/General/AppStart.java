@@ -5,12 +5,14 @@ import Vehicles.Vehicle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
+import javafx.scene.paint.Color;
 import java.util.List;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class AppStart extends Application {
 
@@ -41,48 +43,95 @@ public class AppStart extends Application {
         //INICIO DA SIMULAÇÃO
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
 
         for (int i = 0; i < positions.size(); i++) {
             Position position = positions.get(i);
-
-            Label label = new Label();
+            StackPane stackPane = new StackPane(); // StackPane to hold the rectangle and text
 
             // Set label text based on the position's name
             switch (position.getName()) {
                 case "Wall":
                     if (position.getX() == 0 || position.getX() == dimensions[0] - 1) {
-                        label.setText("║"); // Use vertical line for side walls
+                        stackPane.getChildren().addAll(createVerticalWallRectangle(), createText("║"));
                     } else if (position.getY() == 0 || position.getY() == dimensions[1] - 1) {
-                        label.setText("═"); // Use horizontal line for top/bottom walls
+                        stackPane.getChildren().addAll(createHorizontalWallRectangle(), createText("═"));
                     }
                     break;
                 case "Shelf":
-                    label.setText("S"); // Use "S" for shelves
+                    stackPane.getChildren().addAll(createShelfRectangle(), createText("Shelf"));
                     break;
-
                 case "Collect":
-                    label.setText("C"); // Use "C" for the collection area
+                    stackPane.getChildren().addAll(createCollectRectangle(), createText("Collect"));
                     break;
                 case "Delivery":
-                    label.setText("D"); // Use "D" for the delivery area
+                    stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery"));
                     break;
-                case "Entry" :
-                case "Exit" :
-                    label.setText("╬");
+                case "Entry":
+                case "Exit":
+                    stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door"));
                     break;
                 default:
-                    label.setText(" "); // Use a space for the floor
+                    stackPane.getChildren().addAll(createFloorRectangle());
                     break;
             }
 
-            gridPane.add(label, position.getX(), position.getY());
+            gridPane.add(stackPane, position.getX(), position.getY());
         }
 
         Scene scene = new Scene(gridPane, 600, 600);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Distribution Center");
+        primaryStage.setTitle("Distribution center");
         primaryStage.show();
+    }private Rectangle createVerticalWallRectangle() {
+        Rectangle rectangle = new Rectangle(40, 20);
+        rectangle.setFill(Color.DARKGRAY);
+        return rectangle;
     }
+
+    private Rectangle createHorizontalWallRectangle() {
+        Rectangle rectangle = new Rectangle(40, 20);
+        rectangle.setFill(Color.DARKGRAY);
+        return rectangle;
+    }
+
+    private Rectangle createShelfRectangle() {
+        Rectangle rectangle = new Rectangle(40, 40);
+        rectangle.setFill(Color.PURPLE);
+        return rectangle;
+    }
+
+    private Rectangle createCollectRectangle() {
+        Rectangle rectangle = new Rectangle(60, 40);
+        rectangle.setFill(Color.GREEN);
+        return rectangle;
+    }
+
+    private Text createText(String text1) {
+        Text text = new Text(text1);
+        text.setFont(Font.font(14));
+        return text;
+    }
+
+    private Rectangle createDeliveryRectangle() {
+        Rectangle rectangle = new Rectangle(60, 40);
+        rectangle.setFill(Color.RED);
+        return rectangle;
+    }
+
+    private Rectangle createEntryExitRectangle() {
+        Rectangle rectangle = new Rectangle(40, 40);
+        rectangle.setFill(Color.YELLOW);
+        return rectangle;
+    }
+
+    private Rectangle createFloorRectangle() {
+        Rectangle rectangle = new Rectangle(40, 40);
+        rectangle.setFill(Color.WHITE);
+        return rectangle;
+    }
+
+
+
 }
