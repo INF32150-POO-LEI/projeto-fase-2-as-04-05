@@ -15,7 +15,7 @@ public class Position {
     private int y;
     private String name;
     private static int MAX_VEHICLES = 1;
-    private List<Vehicle> listOfVehicles; //in current position
+    private Vehicle vehicleInPosition; //in current position
 
     /**
      * Constructs a new Position object with the specified name, x-coordinate, and y-coordinate.
@@ -28,7 +28,7 @@ public class Position {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.listOfVehicles = new ArrayList<>();
+        //this.listOfVehicles = new ArrayList<>();
     }
 
     /**
@@ -40,14 +40,7 @@ public class Position {
         return name;
     }
 
-    /**
-     * Sets the list of vehicles currently in this position.
-     *
-     * @param listOfVehicles The list of vehicles to set
-     */
-    public void setListOfVehicles(List<Vehicle> listOfVehicles) {
-        this.listOfVehicles = listOfVehicles;
-    }
+
 
     /**
      * Returns the maximum number of vehicles allowed in this position.
@@ -58,33 +51,14 @@ public class Position {
         return MAX_VEHICLES;
     }
 
-    /**
-     * Sets the maximum number of vehicles allowed in this position.
-     *
-     * @param maxVehicles The maximum number of vehicles to set
-     */
-    public void setMaxVehicles(int maxVehicles) {
-        this.MAX_VEHICLES = maxVehicles;
-    }
 
-    /**
-     * Returns the list of vehicles currently in this position.
-     *
-     * @return The list of vehicles in this position
-     */
-    public List<Vehicle> getListOfVehicles() {
-        return listOfVehicles;
-    }
 
-    /**
-     * Adds a vehicle to the current position.
-     *
-     * @param vehicle The vehicle to add
-     * @return True if the vehicle was successfully added, False otherwise
-     */
+
+
+
     public boolean addToPosition(Vehicle vehicle){
-        if(listOfVehicles.size() < MAX_VEHICLES){
-            listOfVehicles.add(vehicle);
+        if(vehicleInPosition == null) {
+            vehicleInPosition = vehicle;
             return true;
         }
         else{
@@ -99,6 +73,14 @@ public class Position {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Vehicle getVehicleInPosition() {
+        return vehicleInPosition;
+    }
+
+    public void setVehicleInPosition(Vehicle vehicleInPosition) {
+        this.vehicleInPosition = vehicleInPosition;
     }
 
     /**

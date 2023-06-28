@@ -1,5 +1,7 @@
 package General;
 
+import Product.Product;
+import Vehicles.Vehicle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,6 +24,19 @@ public class AppStart extends Application {
         ProductsCSV productsFile = new ProductsCSV();
         VehiclesCSV vehiclesFile = new VehiclesCSV();
         int dimensions[] = dimensionsFile.readFromCSV();
+        List<Product> productList = productsFile.readFromCSV();
+
+        for(Product p : productList){
+            p.setWeights();// gera pesos para cada item
+        }
+
+        DistributionCenter distributionCenter = new DistributionCenter(dimensions[0],dimensions[1]);
+        List<Shelf> shelves = distributionCenter.getShelves();
+        List<Vehicle> vehicles = vehiclesFile.readFromCSV();
+        List<Position> positions = distributionCenter.getPositionsList();
+        distributionCenter.setVehiclesStartingPositions(vehicles, positions);
+        List packedItems = distributionCenter.packProducts(productList);
+        distributionCenter.loadVehicles(packedItems, vehicles);
 
         //INICIO DA SIMULAÇÃO
         GridPane gridPane = new GridPane();
@@ -29,14 +44,10 @@ public class AppStart extends Application {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        DistributionCenter distributionCenter = new DistributionCenter(dimensions[0],dimensions[1]);
-        Position[][] positions = distributionCenter.createDistributionCenter();
-
-        for (int i = 0; i < dimensions[1]; i++) {
-            for (int j = 0; j < dimensions[0]; j++) {
-                Label label = new Label(positions[i][j].getName());
-                gridPane.add(label, j, i);
-            }
+        for(int i = 0; i < positions.size(); i++){
+            Label label = new Label(positions.get(i).getName());
+           // if(positions.get(i).getName() == )
+            gridPane.add(label, positions.get(i).getX(), positions.get(i).getY());
         }
 
         Scene scene = new Scene(gridPane, 600, 600);

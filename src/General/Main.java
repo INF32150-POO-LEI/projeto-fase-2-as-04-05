@@ -8,13 +8,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        //INICIO DA SIMULAÇÃO
         WarehouseCSV dimensionsFile = new WarehouseCSV();
         ProductsCSV productsFile = new ProductsCSV();
         VehiclesCSV vehiclesFile = new VehiclesCSV();
         int dimensions[] = dimensionsFile.readFromCSV();
         System.out.println("\nArmazem criado com x: " + dimensions[0] + " e y: " + dimensions[1] + " visivel abaixo:\n");
 
-        //INICIO DA SIMULAÇÃO
         DistributionCenter distributionCenter = new DistributionCenter(dimensions[0],dimensions[1]) ;
         List<Product> productList = productsFile.readFromCSV();
 
