@@ -44,10 +44,43 @@ public class AppStart extends Application {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        for(int i = 0; i < positions.size(); i++){
-            Label label = new Label(positions.get(i).getName());
-           // if(positions.get(i).getName() == )
-            gridPane.add(label, positions.get(i).getX(), positions.get(i).getY());
+        for (int i = 0; i < positions.size(); i++) {
+            Position position = positions.get(i);
+
+            Label label = new Label();
+
+            // Set label text based on the position's name
+            switch (position.getName()) {
+                case "Wall":
+                    if (position.getX() == 0 || position.getX() == dimensions[0] - 1) {
+                        label.setText("║"); // Use vertical line for side walls
+                    } else if (position.getY() == 0 || position.getY() == dimensions[1] - 1) {
+                        label.setText("═"); // Use horizontal line for top/bottom walls
+                    }
+                    break;
+                case "Shelf":
+                    label.setText("S"); // Use "S" for shelves
+                    break;
+
+                case "Collect":
+                    label.setText("C"); // Use "C" for the collection area
+                    break;
+                case "Delivery":
+                    label.setText("D"); // Use "D" for the delivery area
+                    break;
+                case "Floor":
+                    label.setText("F");
+                    break;
+                case "Entry" :
+                case "Exit" :
+                    label.setText("╬");
+                    break;
+                default:
+                    label.setText(" "); // Use a space for the floor
+                    break;
+            }
+
+            gridPane.add(label, position.getX(), position.getY());
         }
 
         Scene scene = new Scene(gridPane, 600, 600);
