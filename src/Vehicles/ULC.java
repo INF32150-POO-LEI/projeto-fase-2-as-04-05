@@ -9,6 +9,7 @@ import java.util.List;
  * Represents an Unit Load Carrier (ULC).
  */
 public class ULC extends Vehicle {
+    private final String type = "ULC";
     private List<Position> path;
     private List<Pallet> currentCargo;
     private static final int MAX_PALLETS = 1;
@@ -22,6 +23,11 @@ public class ULC extends Vehicle {
         super();
         this.path = new ArrayList<>();
         this.currentCargo = new ArrayList<>();
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.List;
  * Represents a tug vehicle.
  */
 public class TugVehicle extends Vehicle{
+    private final String type = "TUG";
     private List<DeliveryCart> towedAGCList;
 
     /**
@@ -33,6 +34,11 @@ public class TugVehicle extends Vehicle{
                   }
             }
         }
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**

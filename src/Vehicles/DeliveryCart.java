@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class DeliveryCart extends Vehicle {
     private static final int MAX_WEIGHT = 200;
+    private final String type = "DC";
     private int currentWeight;
     private boolean isTugged = false;
     private List currentCargo;
@@ -23,6 +24,10 @@ public class DeliveryCart extends Vehicle {
         this.currentWeight = 0;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
     public void setTugged(boolean status) {
         this.isTugged = status;
     }

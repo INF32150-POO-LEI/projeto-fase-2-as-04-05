@@ -10,6 +10,8 @@ import java.util.List;
  * Represents an Automated Guided Cart (AGC).
  */
 public class AGC extends Vehicle{
+
+    private final String type = "AGC";
     private static final int MAX_WEIGHT = 100;
     private int currentWeight = 0;
     private List currentCargo;
@@ -37,6 +39,11 @@ public class AGC extends Vehicle{
         else{
             return false;
         }
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**

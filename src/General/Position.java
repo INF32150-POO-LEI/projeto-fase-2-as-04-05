@@ -51,14 +51,10 @@ public class Position {
         return MAX_VEHICLES;
     }
 
-
-
-
-
-
     public boolean addToPosition(Vehicle vehicle){
-        if(vehicleInPosition == null) {
-            vehicleInPosition = vehicle;
+        if(getVehicleInPosition() == null) {
+            setVehicleInPosition(vehicle);
+            vehicle.setCurrentPosition(this);
             return true;
         }
         else{

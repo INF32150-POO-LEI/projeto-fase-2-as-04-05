@@ -6,7 +6,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import java.util.List;
@@ -54,23 +56,37 @@ public class AppStart extends Application {
             switch (position.getName()) {
                 case "Wall":
                     if (position.getX() == 0 || position.getX() == dimensions[0] - 1) {
-                        stackPane.getChildren().addAll(createVerticalWallRectangle(), createText("║"));
+                        stackPane.getChildren().addAll(createVerticalWallRectangle(), createText("║", 12));
                     } else if (position.getY() == 0 || position.getY() == dimensions[1] - 1) {
-                        stackPane.getChildren().addAll(createHorizontalWallRectangle(), createText("═"));
+                        stackPane.getChildren().addAll(createHorizontalWallRectangle(), createText("═", 12));
                     }
                     break;
                 case "Shelf":
-                    stackPane.getChildren().addAll(createShelfRectangle(), createText("Shelf"));
+                    stackPane.getChildren().addAll(createShelfRectangle(), createText("Shelf", 12));
                     break;
                 case "Collect":
-                    stackPane.getChildren().addAll(createCollectRectangle(), createText("Collect"));
+                    VBox vbox = new VBox();
+                    Rectangle r = createVehicleRectangle();
+                    vbox.getChildren().add(createText("Collect", 12));
+                    if (position.getVehicleInPosition() != null) {
+                        Text vehicleText = createText("*" + position.getVehicleInPosition().getType() + "*", 10);
+                        StackPane vehicleStack = new StackPane(r, vehicleText);
+                        vbox.getChildren().add(vehicleStack);
+                    }
+                    vbox.setAlignment(Pos.CENTER);
+                    vbox.setSpacing(5);
+
+                    StackPane stackPane2 = new StackPane(createCollectRectangle(), vbox);
+                    gridPane.add(stackPane2, position.getX(), position.getY());
                     break;
+
+
                 case "Delivery":
-                    stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery"));
+                    stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
                     break;
                 case "Entry":
                 case "Exit":
-                    stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door"));
+                    stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door", 12));
                     break;
                 default:
                     stackPane.getChildren().addAll(createFloorRectangle());
@@ -84,9 +100,16 @@ public class AppStart extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Distribution center");
         primaryStage.show();
-    }private Rectangle createVerticalWallRectangle() {
+    }
+    private Rectangle createVerticalWallRectangle() {
         Rectangle rectangle = new Rectangle(40, 20);
         rectangle.setFill(Color.DARKGRAY);
+        return rectangle;
+    }
+
+    private Rectangle createVehicleRectangle() {
+        Rectangle rectangle = new Rectangle(30, 10);
+        rectangle.setFill(Color.LIGHTGREEN);
         return rectangle;
     }
 
@@ -108,9 +131,9 @@ public class AppStart extends Application {
         return rectangle;
     }
 
-    private Text createText(String text1) {
+    private Text createText(String text1, int size) {
         Text text = new Text(text1);
-        text.setFont(Font.font(14));
+        text.setFont(Font.font(size));
         return text;
     }
 
