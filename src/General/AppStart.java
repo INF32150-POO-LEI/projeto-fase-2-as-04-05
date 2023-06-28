@@ -68,9 +68,6 @@ public class AppStart extends Application {
                 case "Delivery":
                     label.setText("D"); // Use "D" for the delivery area
                     break;
-                case "Floor":
-                    label.setText("F");
-                    break;
                 case "Entry" :
                 case "Exit" :
                     label.setText("╬");
