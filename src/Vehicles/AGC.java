@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class AGC extends Vehicle{
 
-    private final String type = "AGC";
     private static final int MAX_WEIGHT = 100;
     private int currentWeight = 0;
     private List currentCargo;
@@ -42,8 +41,12 @@ public class AGC extends Vehicle{
     }
 
     @Override
-    public String getType() {
-        return type;
+    public int getCargoQuantity(){
+        return currentCargo.size();
+    }
+    @Override
+    public String toString() {
+        return "AGC";
     }
 
     /**

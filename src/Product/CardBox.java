@@ -7,6 +7,8 @@ import java.util.List;
  * Represents a card box used for packaging products.
  */
 public class CardBox implements Packaging {
+
+    private boolean loaded = false;
     private double maxWeight;
     private double currentWeight;
     public List<Product> productsInTheBox;
@@ -33,6 +35,16 @@ public class CardBox implements Packaging {
     public void putIntoPallet(boolean putIntoPallet) {
         this.putIntoPallet = putIntoPallet;
     }
+    @Override
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
+
 
     public boolean getPutIntoPallet() {
         return putIntoPallet;

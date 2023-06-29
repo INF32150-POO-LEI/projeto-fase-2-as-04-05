@@ -12,5 +12,8 @@ public interface Packaging {
      * @return `true` if the product was successfully packed, `false` otherwise
      */
     public boolean pack(Product p);
+    public void setLoaded(boolean loaded);
+
+    public boolean isLoaded();
 
 }

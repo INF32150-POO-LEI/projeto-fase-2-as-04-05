@@ -9,7 +9,6 @@ import java.util.List;
  * Represents an Unit Load Carrier (ULC).
  */
 public class ULC extends Vehicle {
-    private final String type = "ULC";
     private List<Position> path;
     private List<Pallet> currentCargo;
     private static final int MAX_PALLETS = 1;
@@ -26,8 +25,12 @@ public class ULC extends Vehicle {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public int getCargoQuantity(){
+        return currentCargo.size();
+    }
+    @Override
+    public String toString(){
+        return "ULC";
     }
 
     /**
@@ -37,8 +40,8 @@ public class ULC extends Vehicle {
      * @return true if the pallet was added successfully, false otherwise
      */
     public boolean addPallet(Pallet p){
-        if(currentCargo.size() <= MAX_PALLETS){
-            currentCargo.add(p);
+        if(getCurrentCargo().size() < MAX_PALLETS){
+            getCurrentCargo().add(p);
             return true;
         }
         else{

@@ -8,6 +8,7 @@ import Product.Bag;
 import Product.Pallet;
 import Vehicles.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The DistributionCenter class represents a distribution center in a logistics system.
@@ -230,13 +231,13 @@ public class DistributionCenter {
      */
     public void setVehiclesStartingPositions(List<Vehicle> vehiclesList, List<Position> positionsList) {
         for (Vehicle v : vehiclesList) {
-            for (Position p : positionsList) {
-                if (p.getName().equals("Collect") && p.addToPosition(v)) {
-                    v.setCurrentPosition(p);
-                    v.setAvailableStatus(true);
-                    break;
+                for (Position p : positionsList) {
+                    if (p.getName().equals("Collect") && p.addToPosition(v)) {
+                        v.setCurrentPosition(p);
+                        v.setAvailableStatus(true);
+                        break;
+                    }
                 }
-            }
         }
     }
 
@@ -274,17 +275,12 @@ public class DistributionCenter {
                 "\n" + agc + " do tipo AGC";
     }
 
-    public Vehicle findVehicle(List<Vehicle> vehicles, Class<?> vehicleType) {
-        Optional<Vehicle> optionalVehicle = vehicles.stream()
+    public List<Vehicle> findVehicles(List<Vehicle> vehicles, Class<?> vehicleType) {
+        List<Vehicle> availableVehicles = vehicles.stream()
                 .filter(vehicle -> vehicleType.isInstance(vehicle) && vehicle.isAvailable())
-                .findFirst();
+                .collect(Collectors.toList());
 
-        // Check if the vehicle was found
-        if (optionalVehicle.isPresent()) {
-            return optionalVehicle.get(); // Return the found vehicle
-        } else {
-            return null; // Vehicle not found
-        }
+        return availableVehicles;
     }
 
     /**
@@ -294,84 +290,92 @@ public class DistributionCenter {
      * @param vehicles     The list of vehicles to load the items onto.
      */
 
-    public void loadVehicles(List packedItems, List<Vehicle> vehicles) {
+    public void loadVehicles(List<Object> packedItems, List<Vehicle> vehicles) {
         int currentItemsPacked = 0;
-        Vehicle foundVehicle = null;
 
-                for (int i = 0; i < packedItems.size(); i++) {
-                    if (currentItemsPacked >= packedItems.size()) {
+        for (Object item : packedItems) {
+            if (currentItemsPacked >= packedItems.size()) {
+                break;
+            }
+
+            if (item instanceof Pallet) {
+                List<Vehicle> ulcVehicles = findVehicles(vehicles, ULC.class);
+                for (Vehicle foundVehicle : ulcVehicles) {
+                    if (((ULC) foundVehicle).addPallet((Pallet) item)) {
+                        currentItemsPacked++;
+                        ((Pallet) item).setLoaded(true);
                         break;
                     }
+                }
+            } else if (item instanceof Bag) {
+                String[] choices = {"DeliveryCart", "AGC"};
+                Random random = new Random();
+                String randomChoice = choices[random.nextInt(choices.length)];
 
-                    Object item = packedItems.get(i);
-                    if (item instanceof Pallet) {
-                            foundVehicle = findVehicle(vehicles, ULC.class);
-                            if(foundVehicle != null) {
-                                if (((ULC) foundVehicle).addPallet((Pallet) item)) {
-                                    currentItemsPacked++;
-                                }
-                            }
-                            continue;
-                        }
-                    if (item instanceof Bag) {
-                        String[] choices = {"DeliveryCart", "AGC"};
-                        Random random = new Random();
-                        String randomChoice = choices[random.nextInt(choices.length)];
-
-                        if (randomChoice.equals("DeliveryCart")) {
-                            foundVehicle = findVehicle(vehicles, DeliveryCart.class);
-                            if(foundVehicle != null) {
-                                    if (((DeliveryCart) foundVehicle).addBag((Bag) item)) {
-                                        currentItemsPacked++;
-                                    }
-                              }
-                            continue;
-                            }
-                        else if (randomChoice.equals("AGC")) {
-                            foundVehicle = findVehicle(vehicles, AGC.class);
-                            if(foundVehicle != null) {
-                                    if (((AGC) foundVehicle).addBag((Bag) item)) {
-                                        currentItemsPacked++;
-                                    }
-                              }
-                            continue;
-                            }
-                        }
-                    if (item instanceof Box) {
-                        String[] choices = {"DeliveryCart", "AGC"};
-                        Random random = new Random();
-                        String randomChoice = choices[random.nextInt(choices.length)];
-
-                        if (randomChoice.equals("DeliveryCart")) {
-                            foundVehicle = findVehicle(vehicles, DeliveryCart.class);
-                            if(foundVehicle != null) {
-                                    ((DeliveryCart) foundVehicle).addBox((Box) item);
-                                    currentItemsPacked++;
-                                }
-                            continue;
-                            }
-                        else if (randomChoice.equals("AGC")) {
-                            foundVehicle = findVehicle(vehicles, AGC.class);
-                            if (foundVehicle != null) {
-                                    ((AGC) foundVehicle).addBox((Box) item);
-                                    currentItemsPacked++;
-                             }
-                            continue;
-                           }
+                if (randomChoice.equals("DeliveryCart")) {
+                    List<Vehicle> deliveryCartVehicles = findVehicles(vehicles, DeliveryCart.class);
+                    for (Vehicle foundVehicle : deliveryCartVehicles) {
+                        if (((DeliveryCart) foundVehicle).addBag((Bag) item)) {
+                            currentItemsPacked++;
+                            ((Bag) item).setLoaded(true);
+                            break;
                         }
                     }
+                } else if (randomChoice.equals("AGC")) {
+                    List<Vehicle> agcVehicles = findVehicles(vehicles, AGC.class);
+                    for (Vehicle foundVehicle : agcVehicles) {
+                        if (((AGC) foundVehicle).addBag((Bag) item)) {
+                            currentItemsPacked++;
+                            ((Bag) item).setLoaded(true);
+                            break;
+                        }
+                    }
+                }
+            } else if (item instanceof Box) {
+                String[] choices = {"DeliveryCart", "AGC"};
+                Random random = new Random();
+                String randomChoice = choices[random.nextInt(choices.length)];
 
-
-        for(Vehicle v2 : vehicles){
-            if(v2 instanceof TugVehicle){
-                if(v2.isAvailable()){
-                    ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
+                if (randomChoice.equals("DeliveryCart")) {
+                    List<Vehicle> deliveryCartVehicles = findVehicles(vehicles, DeliveryCart.class);
+                    for (Vehicle foundVehicle : deliveryCartVehicles) {
+                        if (((DeliveryCart) foundVehicle).addBox((Box) item)) {
+                            currentItemsPacked++;
+                            ((Box) item).setLoaded(true);
+                            break;
+                        }
+                    }
+                } else if (randomChoice.equals("AGC")) {
+                    List<Vehicle> agcVehicles = findVehicles(vehicles, AGC.class);
+                    for (Vehicle foundVehicle : agcVehicles) {
+                        if (((AGC) foundVehicle).addBox((Box) item)) {
+                            currentItemsPacked++;
+                            ((Box) item).setLoaded(true);
+                            break;
+                        }
+                    }
                 }
             }
         }
+
+        for (Vehicle v2 : vehicles) {
+            if (v2 instanceof TugVehicle && v2.isAvailable()) {
+                ((TugVehicle) v2).putDCIntoTugVehicle(vehicles);
+            }
+        }
+
         System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
-                +"\n- Sobraram: " + (packedItems.size()-currentItemsPacked) + " embalagens.");
+                + "\n- Sobraram: " + (packedItems.size() - currentItemsPacked) + " embalagens");
+
+        for (Object item : packedItems) {
+            if ((item instanceof Pallet && !((Pallet) item).isLoaded())
+                    || (item instanceof Bag && !((Bag) item).isLoaded())
+                    || (item instanceof Box && !((Box) item).isLoaded())) {
+                System.out.println(item.toString());
+            }
+        }
     }
+
 
     /**
      * Counts the number of packed items of each type and returns the results as a formatted string.

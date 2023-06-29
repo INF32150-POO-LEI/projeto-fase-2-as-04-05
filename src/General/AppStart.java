@@ -38,16 +38,18 @@ public class AppStart extends Application {
         List<Shelf> shelves = distributionCenter.getShelves();
         List<Vehicle> vehicles = vehiclesFile.readFromCSV();
         List<Position> positions = distributionCenter.getPositionsList();
-        distributionCenter.setVehiclesStartingPositions(vehicles, positions);
         List packedItems = distributionCenter.packProducts(productList);
+        System.out.println("\n- Numero de embalagens:" + packedItems.size());
+        distributionCenter.setVehiclesStartingPositions(vehicles, positions);
         distributionCenter.loadVehicles(packedItems, vehicles);
+
+
 
         //INICIO DA SIMULAÇÃO
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(5);
         gridPane.setVgap(5);
-
         for (int i = 0; i < positions.size(); i++) {
             Position position = positions.get(i);
             StackPane stackPane = new StackPane(); // StackPane to hold the rectangle and text
@@ -72,18 +74,15 @@ public class AppStart extends Application {
                             vbox.getChildren().add(vehicleStack);
                             vbox.setAlignment(Pos.CENTER);
                             vbox.setSpacing(5);
-
                             StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox);
                             gridPane.add(stackPane2, position.getX(), position.getY());
-
                         }
                     }
                     break;
-
                 case "Collect":
                     vbox.getChildren().add(createText("Collect", 12));
                     if (position.getVehicleInPosition() != null) {
-                        Text vehicleText = createText(position.getVehicleInPosition().getType(), 10);
+                        Text vehicleText = createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10);
                         StackPane vehicleStack = new StackPane(r, vehicleText);
                         vbox.getChildren().add(vehicleStack);
                     }
@@ -96,20 +95,20 @@ public class AppStart extends Application {
                 case "Delivery":
                     stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
                     if (position.getVehicleInPosition() != null) {
-                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10));
                     }
                     break;
                 case "Entry":
                 case "Exit":
                     stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door", 12));
                     if (position.getVehicleInPosition() != null) {
-                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10));
                     }
                     break;
                 default:
                     stackPane.getChildren().addAll(createFloorRectangle());
                     if (position.getVehicleInPosition() != null) {
-                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10));
                     }
                     break;
             }
@@ -128,8 +127,8 @@ public class AppStart extends Application {
     }
 
     private Rectangle createVehicleRectangle() {
-        Rectangle rectangle = new Rectangle(30, 10);
-        rectangle.setFill(Color.LIGHTGOLDENRODYELLOW);
+        Rectangle rectangle = new Rectangle(60, 10);
+        rectangle.setFill(Color.LIGHTGREEN);
         return rectangle;
     }
 

@@ -52,6 +52,10 @@ public class Position {
     }
 
     public boolean addToPosition(Vehicle vehicle){
+        if(vehicle.toString() == "DC"){
+            return true;
+        }
+
         if(getVehicleInPosition() == null) {
             setVehicleInPosition(vehicle);
             vehicle.setCurrentPosition(this);

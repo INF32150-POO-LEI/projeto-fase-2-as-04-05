@@ -7,6 +7,8 @@ import java.util.List;
  * Represents a box used for packaging products.
  */
 public class Box implements Packaging {
+
+    private boolean loaded = false;
     private double maxWeight;
     private double currentWeight;
     public List<Product> productsInTheBox;
@@ -60,6 +62,15 @@ public class Box implements Packaging {
         return code;
     }
 
+    @Override
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
     /**
      * Packs a product into the box.
      *

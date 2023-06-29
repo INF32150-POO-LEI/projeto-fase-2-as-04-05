@@ -7,6 +7,8 @@ import java.util.List;
  * Represents a pallet for packaging cardboxes.
  */
 public class Pallet implements Packaging {
+
+    private boolean loaded = false;
     private double maxWeight;
     private double currentWeight;
     private int maxBoxes;
@@ -45,6 +47,16 @@ public class Pallet implements Packaging {
      */
     public double getMaxWeight() {
         return maxWeight;
+    }
+
+    @Override
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
     }
 
     /**

@@ -7,6 +7,8 @@ import java.util.List;
  * Represents a bag used for packaging products.
  */
 public class Bag implements Packaging {
+
+    private boolean loaded = false;
     private double maxWeight;
     private List<Product> productsInTheBag;
     private double currentWeight;
@@ -53,6 +55,16 @@ public class Bag implements Packaging {
             currentWeight += p.getWeight();
             return true;
         }
+    }
+
+    @Override
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
     }
 
     /**

@@ -15,7 +15,7 @@ public abstract class Vehicle {
         available = status;
     }
 
-    public abstract String getType();
+    public abstract int getCargoQuantity();
 
     public boolean isAvailable(){
         if(available == true){

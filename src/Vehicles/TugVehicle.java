@@ -8,16 +8,14 @@ import java.util.List;
  * Represents a tug vehicle.
  */
 public class TugVehicle extends Vehicle{
-    private final String type = "TUG";
-    private List<DeliveryCart> towedAGCList;
+    private DeliveryCart towedAGC;
 
     /**
      * Constructs a new TugVehicle object with the specified current position.
      *
      */
     public TugVehicle() {
-        this.towedAGCList = new ArrayList<>();
-
+        this.towedAGC = null;
     }
 
     /**
@@ -28,8 +26,8 @@ public class TugVehicle extends Vehicle{
     public void putDCIntoTugVehicle(List<Vehicle> vehicles) {
         for (Vehicle v : vehicles) {
             if (v instanceof DeliveryCart && v.isAvailable()) {
-                  if(((DeliveryCart) v).getCurrentCargo().size() > 0 && ((DeliveryCart) v).isTugged() == false && getTowedAGCList().size() == 0){
-                    getTowedAGCList().add((DeliveryCart) v);
+                  if(((DeliveryCart) v).getCurrentCargo().size() > 0 && ((DeliveryCart) v).isTugged() == false && getTowedAGC() == null){
+                    setTowedAGC((DeliveryCart) v);
                     ((DeliveryCart) v).setTugged(true);
                   }
             }
@@ -37,27 +35,26 @@ public class TugVehicle extends Vehicle{
     }
 
     @Override
-    public String getType() {
-        return type;
+    public String toString() {
+        return "TUG";
     }
 
-    /**
-     * Gets the list of delivery carts towed by the tug vehicle.
-     *
-     * @return the list of delivery carts
-     */
-    public List<DeliveryCart> getTowedAGCList() {
-        return towedAGCList;
-    }
-
-    /**
-     * Sets the list of towed AGCs (Automated Guided Carts).
-     *
-     * @param towedAGCList the list of towed AGCs to be set
-     */
-    public void setTowedAGCList(List<DeliveryCart> towedAGCList) {
-        this.towedAGCList = towedAGCList;
+    @Override
+    public int getCargoQuantity(){
+        if(getTowedAGC() != null){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 
 
+    public DeliveryCart getTowedAGC() {
+        return towedAGC;
+    }
+
+    public void setTowedAGC(DeliveryCart towedAGC) {
+        this.towedAGC = towedAGC;
+    }
 }

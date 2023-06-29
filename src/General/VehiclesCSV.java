@@ -30,13 +30,13 @@ public class VehiclesCSV implements CSV {
             // Escreve o cabeçalho do arquivo General.CSV
             writer.write("ID,Type\n");
             String[] vehicleType = {"AGC", "TugVehicle", "ULC", "DeliveryCart"};
-            String[][] items = new String[100][2];
+            String[][] items = new String[10][2];
 
             for (int i = 0; i < items.length; i++){
                 Random random = new Random();
                 int randomIndex = random.nextInt(vehicleType.length);
                 String randomString = vehicleType[randomIndex];
-                items[i][0] = "Vehicle" + (i+1) + ",";
+                items[i][0] = "V" + (i+1) + ",";
                 items[i][1] = randomString + "\n";
             }
 
