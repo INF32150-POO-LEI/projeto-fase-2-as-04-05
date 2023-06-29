@@ -51,7 +51,8 @@ public class AppStart extends Application {
         for (int i = 0; i < positions.size(); i++) {
             Position position = positions.get(i);
             StackPane stackPane = new StackPane(); // StackPane to hold the rectangle and text
-
+            VBox vbox = new VBox();
+            Rectangle r = createVehicleRectangle();
             // Set label text based on the position's name
             switch (position.getName()) {
                 case "Wall":
@@ -62,14 +63,27 @@ public class AppStart extends Application {
                     }
                     break;
                 case "Shelf":
-                    stackPane.getChildren().addAll(createShelfRectangle(), createText("Shelf", 12));
+                    for(int j = 0; j < shelves.size(); j++){
+                        if(shelves.get(j).getPosition().equals(positions.get(i))){
+                            r = createProductsNumberRectangle();
+                            vbox.getChildren().add(createText("Shelf", 12));
+                            Text vehicleText = createText("[" + shelves.get(j).getProducts().size() + "]", 10);
+                            StackPane vehicleStack = new StackPane(r, vehicleText);
+                            vbox.getChildren().add(vehicleStack);
+                            vbox.setAlignment(Pos.CENTER);
+                            vbox.setSpacing(5);
+
+                            StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox);
+                            gridPane.add(stackPane2, position.getX(), position.getY());
+
+                        }
+                    }
                     break;
+
                 case "Collect":
-                    VBox vbox = new VBox();
-                    Rectangle r = createVehicleRectangle();
                     vbox.getChildren().add(createText("Collect", 12));
                     if (position.getVehicleInPosition() != null) {
-                        Text vehicleText = createText("*" + position.getVehicleInPosition().getType() + "*", 10);
+                        Text vehicleText = createText(position.getVehicleInPosition().getType(), 10);
                         StackPane vehicleStack = new StackPane(r, vehicleText);
                         vbox.getChildren().add(vehicleStack);
                     }
@@ -79,20 +93,26 @@ public class AppStart extends Application {
                     StackPane stackPane2 = new StackPane(createCollectRectangle(), vbox);
                     gridPane.add(stackPane2, position.getX(), position.getY());
                     break;
-
-
                 case "Delivery":
                     stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
+                    if (position.getVehicleInPosition() != null) {
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                    }
                     break;
                 case "Entry":
                 case "Exit":
                     stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door", 12));
+                    if (position.getVehicleInPosition() != null) {
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                    }
                     break;
                 default:
                     stackPane.getChildren().addAll(createFloorRectangle());
+                    if (position.getVehicleInPosition() != null) {
+                        stackPane.getChildren().add(createText(position.getVehicleInPosition().getType(), 10));
+                    }
                     break;
             }
-
             gridPane.add(stackPane, position.getX(), position.getY());
         }
 
@@ -109,7 +129,13 @@ public class AppStart extends Application {
 
     private Rectangle createVehicleRectangle() {
         Rectangle rectangle = new Rectangle(30, 10);
-        rectangle.setFill(Color.LIGHTGREEN);
+        rectangle.setFill(Color.LIGHTGOLDENRODYELLOW);
+        return rectangle;
+    }
+
+    private Rectangle createProductsNumberRectangle() {
+        Rectangle rectangle = new Rectangle(30, 10);
+        rectangle.setFill(Color.LIGHTBLUE);
         return rectangle;
     }
 
@@ -121,7 +147,7 @@ public class AppStart extends Application {
 
     private Rectangle createShelfRectangle() {
         Rectangle rectangle = new Rectangle(40, 40);
-        rectangle.setFill(Color.PURPLE);
+        rectangle.setFill(Color.BLUE);
         return rectangle;
     }
 

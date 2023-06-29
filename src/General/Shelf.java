@@ -25,7 +25,6 @@ public class Shelf {
         this.products = new ArrayList<>();
     }
 
-
     /**
      * Checks if the shelf is empty.
      *
