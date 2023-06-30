@@ -3,9 +3,13 @@ package General;
 import Product.Product;
 import Vehicles.Vehicle;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
@@ -17,6 +21,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class AppStart extends Application {
+
+    private StackPane whiteAreaStackPane; // Declare the white area StackPane as a field
+    private Position lastClickedPosition;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,8 +50,6 @@ public class AppStart extends Application {
         distributionCenter.setVehiclesStartingPositions(vehicles, positions);
         distributionCenter.loadVehicles(packedItems, vehicles);
 
-
-
         //INICIO DA SIMULAÇÃO
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -55,6 +60,7 @@ public class AppStart extends Application {
             StackPane stackPane = new StackPane(); // StackPane to hold the rectangle and text
             VBox vbox = new VBox();
             Rectangle r = createVehicleRectangle();
+
             // Set label text based on the position's name
             switch (position.getName()) {
                 case "Wall":
@@ -85,18 +91,60 @@ public class AppStart extends Application {
                         Text vehicleText = createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10);
                         StackPane vehicleStack = new StackPane(r, vehicleText);
                         vbox.getChildren().add(vehicleStack);
+                        stackPane.setOnMouseClicked(e -> {
+                            // Check if a white area is already open and close it
+                            if (whiteAreaStackPane != null && gridPane.getChildren().contains(whiteAreaStackPane)) {
+                                gridPane.getChildren().remove(whiteAreaStackPane);
+                            }
+
+                           // Rectangle whiteRectangle = new Rectangle(50, 50, Color.WHITE);
+
+                            // Create buttons
+                            Button button1 = new Button("↑");
+                            Button button2 = new Button("↓");
+                            Button button3 = new Button("→");
+                            Button button4 = new Button("←");
+                            button1.setStyle("-fx-font-size: 14px;");
+                            button2.setStyle("-fx-font-size: 14px;");
+                            button3.setStyle("-fx-font-size: 14px;");
+                            button4.setStyle("-fx-font-size: 14px;");
+
+                            // Create an HBox for the buttons and set spacing and padding
+                            HBox buttonsHBox = new HBox(10);
+                            buttonsHBox.setAlignment(Pos.CENTER);
+                            buttonsHBox.setPadding(new Insets(10)); // Add padding to create space
+                            buttonsHBox.getChildren().addAll(button1, button2, button3, button4);
+
+                            // Create a StackPane for the white area and buttons
+                           // whiteAreaStackPane = new StackPane(whiteRectangle, buttonsHBox); // Assign the StackPane to the field
+                            whiteAreaStackPane = new StackPane( buttonsHBox);
+                            whiteAreaStackPane.setAlignment(Pos.CENTER);
+
+                            // Show the white area with buttons
+                            gridPane.add(whiteAreaStackPane, position.getX(), position.getY()); // Add 1 to the Y position
+
+                            // Update the last clicked position
+                            lastClickedPosition = position;
+                        });
                     }
                     vbox.setAlignment(Pos.CENTER);
                     vbox.setSpacing(5);
 
                     StackPane stackPane2 = new StackPane(createCollectRectangle(), vbox);
                     gridPane.add(stackPane2, position.getX(), position.getY());
+
+                    // Add an empty StackPane below stackPane2 to maintain the layout
+                    StackPane emptyStackPane = new StackPane();
+                    gridPane.add(emptyStackPane, position.getX(), position.getY()+1); // Add 1 to the Y position
                     break;
+
+
                 case "Delivery":
                     stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
                     if (position.getVehicleInPosition() != null) {
                         stackPane.getChildren().add(createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10));
                     }
+
                     break;
                 case "Entry":
                 case "Exit":
@@ -112,14 +160,24 @@ public class AppStart extends Application {
                     }
                     break;
             }
+
             gridPane.add(stackPane, position.getX(), position.getY());
         }
 
-        Scene scene = new Scene(gridPane, 600, 600);
+        Scene scene = new Scene(gridPane, 800, 800);
+        scene.getRoot().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            // Close the white area with buttons if clicked outside of it
+            if (!(event.getTarget() instanceof Button || event.getTarget() instanceof StackPane || event.getTarget() == whiteAreaStackPane)) {
+                gridPane.getChildren().remove(whiteAreaStackPane);
+                lastClickedPosition = null; // Reset the last clicked position
+            }
+        });
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Distribution center");
         primaryStage.show();
     }
+
     private Rectangle createVerticalWallRectangle() {
         Rectangle rectangle = new Rectangle(40, 20);
         rectangle.setFill(Color.DARKGRAY);
