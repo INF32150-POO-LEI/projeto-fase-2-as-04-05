@@ -106,7 +106,6 @@ public class AppStart extends Application {
             }
 
             if (position.getVehicleInPosition() != null) {
-
                 Text vehicleText = createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10);
                 StackPane vehicleStack = new StackPane(r, vehicleText);
                 vbox.getChildren().add(vehicleStack);
@@ -115,6 +114,7 @@ public class AppStart extends Application {
                         gridPane.getChildren().remove(whiteAreaStackPane);
                     }
 
+                    HBox buttonsHBox = new HBox(1);
                     Button button1 = new Button("↑");
                     Button button2 = new Button("↓");
                     Button button3 = new Button("→");
@@ -123,13 +123,18 @@ public class AppStart extends Application {
                     button2.setStyle("-fx-font-size: 14px;");
                     button3.setStyle("-fx-font-size: 14px;");
                     button4.setStyle("-fx-font-size: 14px;");
+                    buttonsHBox.setAlignment(Pos.CENTER);
+                    buttonsHBox.setPadding(new Insets(10));
+                    buttonsHBox.getChildren().addAll(button1, button2, button3, button4);
+                    whiteAreaStackPane = new StackPane(buttonsHBox);
+                    whiteAreaStackPane.setAlignment(Pos.CENTER);
+                    gridPane.add(whiteAreaStackPane, position.getX(), position.getY());
 
                     button1.setOnAction(event -> {
                         Vehicle v = position.getVehicleInPosition().moveUpwards(positions);
                         if (!v.equals(null) && position.getVehicleInPosition() == null) {
                             System.out.println("Moved upwards");
-                            gridPane.getChildren().remove(vehicleText);
-                            gridPane.add(vehicleStack, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
+
                         }
                     });
 
@@ -137,8 +142,7 @@ public class AppStart extends Application {
                         Vehicle v = position.getVehicleInPosition().moveDownwards(positions);
                         if (!v.equals(null) && position.getVehicleInPosition() == null) {
                             System.out.println("Moved downwards");
-                            gridPane.getChildren().remove(vehicleStack);
-                            gridPane.add(vehicleStack, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
+
                         }
                     });
 
@@ -148,6 +152,7 @@ public class AppStart extends Application {
                             System.out.println("Moved to the right");
                             gridPane.getChildren().remove(vehicleText);
                             gridPane.add(vehicleStack, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
+                            gridPane.add(whiteAreaStackPane, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
                         }
                     });
 
@@ -155,25 +160,12 @@ public class AppStart extends Application {
                         Vehicle v = position.getVehicleInPosition().moveLeft(positions);
                         if (!v.equals(null) && position.getVehicleInPosition() == null) {
                             System.out.println("Moved to the left");
-                            gridPane.getChildren().remove(vehicleStack);
-                            gridPane.add(vehicleStack, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
+
                         }
                     });
-
-
-                    HBox buttonsHBox = new HBox(1);
-                    buttonsHBox.setAlignment(Pos.CENTER);
-                    buttonsHBox.setPadding(new Insets(10));
-                    buttonsHBox.getChildren().addAll(button1, button2, button3, button4);
-
-                    whiteAreaStackPane = new StackPane(buttonsHBox);
-                    whiteAreaStackPane.setAlignment(Pos.CENTER);
-                    gridPane.add(whiteAreaStackPane, position.getX(), position.getY());
-
                     lastClickedPosition = position;
                 });
             }
-
 
             gridPane.add(stackPane, position.getX(), position.getY());
         }
