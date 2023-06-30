@@ -109,6 +109,34 @@ public class AppStart extends Application {
                             button3.setStyle("-fx-font-size: 14px;");
                             button4.setStyle("-fx-font-size: 14px;");
 
+                            button1.setOnAction(event -> {
+                                Vehicle result = position.getVehicleInPosition().moveUpwards(positions);
+                                if (result != null) {
+                                    System.out.println("Moved upwards");
+                                }
+                            });
+
+                            button2.setOnAction(event -> {
+                                Vehicle result = position.getVehicleInPosition().moveDownwards(positions);
+                                if (result != null) {
+                                    System.out.println("Moved downwards");
+                                }
+                            });
+
+                            button3.setOnAction(event -> {
+                                Vehicle result = position.getVehicleInPosition().moveRight(positions);
+                                if (result != null) {
+                                    System.out.println("Moved to the right");
+                                }
+                            });
+
+                            button4.setOnAction(event -> {
+                                Vehicle result = position.getVehicleInPosition().moveLeft(positions);
+                                if (result != null) {
+                                    System.out.println("Moved to the left");
+                                }
+                            });
+
                             // Create an HBox for the buttons and set spacing and padding
                             HBox buttonsHBox = new HBox(1);
                             buttonsHBox.setAlignment(Pos.CENTER);
