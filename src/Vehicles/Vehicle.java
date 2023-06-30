@@ -1,6 +1,13 @@
 package Vehicles;
 
 import General.Position;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +21,84 @@ public abstract class Vehicle {
     public void setAvailableStatus(boolean status){
         available = status;
     }
+
+    public Vehicle moveUpwards(List<Position> positions) {
+        for (Position position : positions) {
+            if (position.getX() == this.getCurrentPosition().getX() && position.getY() == (this.getCurrentPosition().getY() - 1)) {
+                switch (position.getName()) {
+                    case "Wall":
+                    case "Shelf":
+                    case "Collect":
+                    case "Delivery":
+                        return null;
+                    case "Floor":
+                    default:
+                        this.setCurrentPosition(position);
+                        return this;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Vehicle moveDownwards(List<Position> positions) {
+        for (Position position : positions) {
+            if (position.getX() == this.getCurrentPosition().getX() && position.getY() == (this.getCurrentPosition().getY() + 1)) {
+                switch (position.getName()) {
+                    case "Wall":
+                    case "Shelf":
+                    case "Collect":
+                    case "Delivery":
+                        return null;
+                    case "Floor":
+                    default:
+                        this.setCurrentPosition(position);
+                        return this;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Vehicle moveRight(List<Position> positions) {
+        for (Position position : positions) {
+            if ((position.getX() == this.getCurrentPosition().getX() + 1) && position.getY() == this.getCurrentPosition().getY()) {
+                switch (position.getName()) {
+                    case "Wall":
+                    case "Shelf":
+                    case "Collect":
+                    case "Delivery":
+                        return null;
+                    case "Floor":
+                    default:
+                        this.setCurrentPosition(position);
+                        return this;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Vehicle moveLeft(List<Position> positions) {
+        for (Position position : positions) {
+            if ((position.getX() == this.getCurrentPosition().getX() - 1) && position.getY() == this.getCurrentPosition().getY()) {
+                switch (position.getName()) {
+                    case "Wall":
+                    case "Shelf":
+                    case "Collect":
+                    case "Delivery":
+                        return null;
+                    case "Floor":
+                    default:
+                        this.setCurrentPosition(position);
+                        return this;
+                }
+            }
+        }
+        return null;
+    }
+
+
 
     public abstract int getCargoQuantity();
 
