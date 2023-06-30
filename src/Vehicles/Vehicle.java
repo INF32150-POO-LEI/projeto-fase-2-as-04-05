@@ -23,8 +23,15 @@ public abstract class Vehicle {
     }
 
     public Vehicle moveUpwards(List<Position> positions) {
+        if (this.getCurrentPosition() == null || positions == null) {
+            return null;
+        }
+
+        int currentX = this.getCurrentPosition().getX();
+        int currentY = this.getCurrentPosition().getY();
+
         for (Position position : positions) {
-            if (position.getX() == this.getCurrentPosition().getX() && position.getY() == (this.getCurrentPosition().getY() - 1)) {
+            if (position.getX() == currentX && position.getY() == (currentY - 1)) {
                 switch (position.getName()) {
                     case "Wall":
                     case "Shelf":
@@ -32,8 +39,9 @@ public abstract class Vehicle {
                     case "Delivery":
                         return null;
                     case "Floor":
-                    default:
+                        this.getCurrentPosition().setVehicleInPosition(null);
                         this.setCurrentPosition(position);
+                        position.setVehicleInPosition(this);
                         return this;
                 }
             }
@@ -42,8 +50,15 @@ public abstract class Vehicle {
     }
 
     public Vehicle moveDownwards(List<Position> positions) {
+        if (this.getCurrentPosition() == null || positions == null) {
+            return null;
+        }
+
+        int currentX = this.getCurrentPosition().getX();
+        int currentY = this.getCurrentPosition().getY();
+
         for (Position position : positions) {
-            if (position.getX() == this.getCurrentPosition().getX() && position.getY() == (this.getCurrentPosition().getY() + 1)) {
+            if (position.getX() == currentX && position.getY() == (currentY + 1)) {
                 switch (position.getName()) {
                     case "Wall":
                     case "Shelf":
@@ -51,8 +66,9 @@ public abstract class Vehicle {
                     case "Delivery":
                         return null;
                     case "Floor":
-                    default:
+                        this.getCurrentPosition().setVehicleInPosition(null);
                         this.setCurrentPosition(position);
+                        position.setVehicleInPosition(this);
                         return this;
                 }
             }
@@ -60,9 +76,17 @@ public abstract class Vehicle {
         return null;
     }
 
+
     public Vehicle moveRight(List<Position> positions) {
+        if (this.getCurrentPosition() == null || positions == null) {
+            return null;
+        }
+
+        int currentX = this.getCurrentPosition().getX();
+        int currentY = this.getCurrentPosition().getY();
+
         for (Position position : positions) {
-            if ((position.getX() == this.getCurrentPosition().getX() + 1) && position.getY() == this.getCurrentPosition().getY()) {
+            if ((position.getX() == currentX + 1) && position.getY() == currentY) {
                 switch (position.getName()) {
                     case "Wall":
                     case "Shelf":
@@ -70,8 +94,9 @@ public abstract class Vehicle {
                     case "Delivery":
                         return null;
                     case "Floor":
-                    default:
+                        this.getCurrentPosition().setVehicleInPosition(null);
                         this.setCurrentPosition(position);
+                        position.setVehicleInPosition(this);
                         return this;
                 }
             }
@@ -80,8 +105,15 @@ public abstract class Vehicle {
     }
 
     public Vehicle moveLeft(List<Position> positions) {
+        if (this.getCurrentPosition() == null || positions == null) {
+            return null;
+        }
+
+        int currentX = this.getCurrentPosition().getX();
+        int currentY = this.getCurrentPosition().getY();
+
         for (Position position : positions) {
-            if ((position.getX() == this.getCurrentPosition().getX() - 1) && position.getY() == this.getCurrentPosition().getY()) {
+            if ((position.getX() == currentX - 1) && position.getY() == currentY) {
                 switch (position.getName()) {
                     case "Wall":
                     case "Shelf":
@@ -89,8 +121,9 @@ public abstract class Vehicle {
                     case "Delivery":
                         return null;
                     case "Floor":
-                    default:
+                        this.getCurrentPosition().setVehicleInPosition(null);
                         this.setCurrentPosition(position);
+                        position.setVehicleInPosition(this);
                         return this;
                 }
             }
