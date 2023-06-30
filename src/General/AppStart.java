@@ -110,7 +110,7 @@ public class AppStart extends Application {
                             button4.setStyle("-fx-font-size: 14px;");
 
                             // Create an HBox for the buttons and set spacing and padding
-                            HBox buttonsHBox = new HBox(10);
+                            HBox buttonsHBox = new HBox(1);
                             buttonsHBox.setAlignment(Pos.CENTER);
                             buttonsHBox.setPadding(new Insets(10)); // Add padding to create space
                             buttonsHBox.getChildren().addAll(button1, button2, button3, button4);
