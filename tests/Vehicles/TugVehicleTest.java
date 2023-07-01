@@ -21,6 +21,7 @@ public class TugVehicleTest {
     void putDCIntoTugVehicle() {
         DeliveryCart dc = new DeliveryCart();
         List<Vehicle> vehicles = new ArrayList<>();
+        dc.setAvailableStatus(true);
         vehicles.add(dc);
 
         tugVehicle.putDCIntoTugVehicle(vehicles);
