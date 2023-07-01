@@ -54,7 +54,4 @@ public class UltrasonicSensor extends Sensor {
     public void setAngle(int angle) {
         this.angle = angle;
     }
-
-
-
 }

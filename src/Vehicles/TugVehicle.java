@@ -49,7 +49,6 @@ public class TugVehicle extends Vehicle{
         }
     }
 
-
     public DeliveryCart getTowedAGC() {
         return towedAGC;
     }

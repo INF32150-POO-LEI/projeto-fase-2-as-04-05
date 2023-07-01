@@ -92,6 +92,4 @@ public class AGC extends Vehicle{
     public void setCurrentCargo(List currentCargo) {
         this.currentCargo = currentCargo;
     }
-
-
 }

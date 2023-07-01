@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CameraTest {
-
     private Camera camera;
 
     @BeforeEach
@@ -37,6 +36,4 @@ class CameraTest {
         int angle = camera.getAngle();
         assertEquals(120, angle);
     }
-
 }
-

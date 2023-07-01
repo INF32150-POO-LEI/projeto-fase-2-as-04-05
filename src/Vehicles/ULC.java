@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an Unit Load Carrier (ULC).
+ * Represents a Unit Load Carrier (ULC).
  */
 public class ULC extends Vehicle {
     private List<Position> path;
@@ -28,6 +28,7 @@ public class ULC extends Vehicle {
     public int getCargoQuantity(){
         return currentCargo.size();
     }
+
     @Override
     public String toString(){
         return "ULC";
@@ -39,14 +40,13 @@ public class ULC extends Vehicle {
      * @param p the pallet to be added
      * @return true if the pallet was added successfully, false otherwise
      */
-    public boolean addPallet(Pallet p){
-        if(getCurrentCargo().size() < MAX_PALLETS){
+    public boolean addPallet(Pallet p) {
+        if(getCurrentCargo().size() < MAX_PALLETS) {
             getCurrentCargo().add(p);
             return true;
         }
-        else{
+        else
             return false;
-        }
     }
 
     /**
