@@ -16,6 +16,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import java.util.List;
+import java.util.Optional;
+import java.util.Stack;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -56,23 +61,23 @@ public class AppStart extends Application {
         gridPane.setHgap(5);
         gridPane.setVgap(5);
         for (int i = 0; i < positions.size(); i++) {
-            Position position = positions.get(i);
-            StackPane stackPane = new StackPane(); // StackPane to hold the rectangle and text
+            AtomicReference<Position> position = new AtomicReference<>(positions.get(i));
+            AtomicReference<StackPane> stackPane = new AtomicReference<>(new StackPane()); // StackPane to hold the rectangle and text
             VBox vbox = new VBox();
-            Rectangle r = createVehicleRectangle();
+            Rectangle r;
 
             // Set label text based on the position's name
-            switch (position.getName()) {
+            switch (position.get().getName()) {
                 case "Wall":
-                    if (position.getX() == 0 || position.getX() == dimensions[0] - 1) {
-                        stackPane.getChildren().addAll(createVerticalWallRectangle(), createText("║", 12));
-                    } else if (position.getY() == 0 || position.getY() == dimensions[1] - 1) {
-                        stackPane.getChildren().addAll(createHorizontalWallRectangle(), createText("═", 12));
+                    if (position.get().getX() == 0 || position.get().getX() == dimensions[0] - 1) {
+                        stackPane.get().getChildren().addAll(createVerticalWallRectangle(), createText("║", 12));
+                    } else if (position.get().getY() == 0 || position.get().getY() == dimensions[1] - 1) {
+                        stackPane.get().getChildren().addAll(createHorizontalWallRectangle(), createText("═", 12));
                     }
                     break;
                 case "Shelf":
-                    for(int j = 0; j < shelves.size(); j++){
-                        if(shelves.get(j).getPosition().equals(positions.get(i))){
+                    for (int j = 0; j < shelves.size(); j++) {
+                        if (shelves.get(j).getPosition().equals(positions.get(i))) {
                             r = createProductsNumberRectangle();
                             vbox.getChildren().add(createText("Shelf", 12));
                             Text vehicleText = createText("[" + shelves.get(j).getProducts().size() + "]", 10);
@@ -81,7 +86,7 @@ public class AppStart extends Application {
                             vbox.setAlignment(Pos.CENTER);
                             vbox.setSpacing(5);
                             StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox);
-                            gridPane.add(stackPane2, position.getX(), position.getY());
+                            gridPane.add(stackPane2, position.get().getX(), position.get().getY());
                         }
                     }
                     break;
@@ -90,30 +95,30 @@ public class AppStart extends Application {
                     vbox.setAlignment(Pos.CENTER);
                     vbox.setSpacing(5);
                     StackPane stackPane2 = new StackPane(createCollectRectangle(), vbox);
-                    gridPane.add(stackPane2, position.getX(), position.getY());
+                    gridPane.add(stackPane2, position.get().getX(), position.get().getY());
 
                     break;
                 case "Delivery":
-                    stackPane.getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
+                    stackPane.get().getChildren().addAll(createDeliveryRectangle(), createText("Delivery", 12));
                     break;
                 case "Entry":
                 case "Exit":
-                    stackPane.getChildren().addAll(createEntryExitRectangle(), createText("Door", 12));
+                    stackPane.get().getChildren().addAll(createEntryExitRectangle(), createText("Door", 12));
                     break;
                 default:
-                    stackPane.getChildren().addAll(createFloorRectangle());
                     break;
             }
 
-            if (position.getVehicleInPosition() != null) {
-                Text vehicleText = createText(position.getVehicleInPosition().toString() + "  [" + position.getVehicleInPosition().getCargoQuantity() + "]", 10);
+
+            if (position.get().getVehicleInPosition() != null) {
+                r = createVehicleRectangle();
+                Text vehicleText = createText(position.get().getVehicleInPosition().toString() + "  [" + position.get().getVehicleInPosition().getCargoQuantity() + "]", 10);
                 StackPane vehicleStack = new StackPane(r, vehicleText);
                 vbox.getChildren().add(vehicleStack);
-                stackPane.setOnMouseClicked(e -> {
+                stackPane.get().setOnMouseClicked(e -> {
                     if (whiteAreaStackPane != null && gridPane.getChildren().contains(whiteAreaStackPane)) {
                         gridPane.getChildren().remove(whiteAreaStackPane);
                     }
-
                     HBox buttonsHBox = new HBox(1);
                     Button button1 = new Button("↑");
                     Button button2 = new Button("↓");
@@ -128,46 +133,91 @@ public class AppStart extends Application {
                     buttonsHBox.getChildren().addAll(button1, button2, button3, button4);
                     whiteAreaStackPane = new StackPane(buttonsHBox);
                     whiteAreaStackPane.setAlignment(Pos.CENTER);
-                    gridPane.add(whiteAreaStackPane, position.getX(), position.getY());
+                    gridPane.add(whiteAreaStackPane, position.get().getX(), position.get().getY());
 
                     button1.setOnAction(event -> {
-                        Vehicle v = position.getVehicleInPosition().moveUpwards(positions);
-                        if (!v.equals(null) && position.getVehicleInPosition() == null) {
-                            System.out.println("Moved upwards");
+                        Position newPosition = position.get().getVehicleInPosition().moveUpwards(positions);
 
+                        if(newPosition.getName().equals("Shelf")){
+
+                            Shelf foundShelf = shelves.stream()
+                                    .filter(shelf -> shelf.getPosition().equals(newPosition))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if(foundShelf != null){
+                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                            }
                         }
                     });
 
                     button2.setOnAction(event -> {
-                        Vehicle v = position.getVehicleInPosition().moveDownwards(positions);
-                        if (!v.equals(null) && position.getVehicleInPosition() == null) {
-                            System.out.println("Moved downwards");
+                        Position newPosition = position.get().getVehicleInPosition().moveDownwards(positions);
 
+                        if(newPosition.getName().equals("Shelf")){
+
+                            Shelf foundShelf = shelves.stream()
+                                    .filter(shelf -> shelf.getPosition().equals(newPosition))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if(foundShelf != null){
+                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                            }
                         }
                     });
 
                     button3.setOnAction(event -> {
-                        Vehicle v = position.getVehicleInPosition().moveRight(positions);
-                        if (!v.equals(null) && position.getVehicleInPosition() == null) {
-                            System.out.println("Moved to the right");
-                            gridPane.getChildren().remove(vehicleText);
-                            gridPane.add(vehicleStack, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
-                            gridPane.add(whiteAreaStackPane, v.getCurrentPosition().getX(), v.getCurrentPosition().getY());
+                       Position newPosition = position.get().getVehicleInPosition().moveRight(positions);
+                       if(newPosition.getName().equals("Shelf")){
+                           Shelf foundShelf = shelves.stream()
+                                   .filter(shelf -> shelf.getPosition().equals(newPosition))
+                                   .findFirst()
+                                   .orElse(null);
+
+                           if(foundShelf != null){
+                               position.get().getVehicleInPosition().loadShelf(foundShelf);
+
+                           }
                         }
+
+                        if (newPosition.getName().equals("Floor")) {
+                            position.set(newPosition.getVehicleInPosition().getCurrentPosition());
+                            gridPane.getChildren().remove(stackPane.get());
+                            StackPane stackPane1 = new StackPane();
+                            stackPane1.setOnMouseClicked(stackPane.get().getOnMouseClicked());
+                            stackPane.set(stackPane1);
+                            stackPane.get().getChildren().addAll(createCollectRectangle(), vehicleStack, vehicleText);
+                            gridPane.add(stackPane.get(), newPosition.getX(), newPosition.getY());
+
+                            // Assign the existing event handler
+                        }
+
+
+
                     });
 
                     button4.setOnAction(event -> {
-                        Vehicle v = position.getVehicleInPosition().moveLeft(positions);
-                        if (!v.equals(null) && position.getVehicleInPosition() == null) {
-                            System.out.println("Moved to the left");
+                        Position newPosition = position.get().getVehicleInPosition().moveLeft(positions);
 
+                        if(newPosition.getName().equals("Shelf")){
+
+                            Shelf foundShelf = shelves.stream()
+                                    .filter(shelf -> shelf.getPosition().equals(newPosition))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if(foundShelf != null){
+                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                            }
                         }
                     });
-                    lastClickedPosition = position;
+                    lastClickedPosition = position.get();
                 });
             }
 
-            gridPane.add(stackPane, position.getX(), position.getY());
+            gridPane.add(stackPane.get(), position.get().getX(), position.get().getY());
+
         }
 
         Scene scene = new Scene(gridPane, 800, 800);

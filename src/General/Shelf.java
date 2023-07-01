@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class Shelf {
     private Position position;
-
     private List products;
 
     /**

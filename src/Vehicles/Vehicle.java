@@ -1,6 +1,7 @@
 package Vehicles;
 
 import General.Position;
+import General.Shelf;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ public abstract class Vehicle {
         available = status;
     }
 
-    public Vehicle moveUpwards(List<Position> positions) {
+    public Position moveUpwards(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
         }
@@ -32,24 +33,16 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if (position.getX() == currentX && position.getY() == (currentY - 1)) {
-                switch (position.getName()) {
-                    case "Wall":
-                    case "Shelf":
-                    case "Collect":
-                    case "Delivery":
-                        return null;
-                    case "Floor":
-                        this.getCurrentPosition().setVehicleInPosition(null);
-                        this.setCurrentPosition(position);
-                        position.setVehicleInPosition(this);
-                        return this;
-                }
+                this.getCurrentPosition().setVehicleInPosition(null);
+                this.setCurrentPosition(position);
+                position.setVehicleInPosition(this);
+                return position;
             }
         }
         return null;
     }
 
-    public Vehicle moveDownwards(List<Position> positions) {
+    public Position moveDownwards(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
         }
@@ -59,25 +52,28 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if (position.getX() == currentX && position.getY() == (currentY + 1)) {
-                switch (position.getName()) {
-                    case "Wall":
-                    case "Shelf":
-                    case "Collect":
-                    case "Delivery":
-                        return null;
-                    case "Floor":
-                        this.getCurrentPosition().setVehicleInPosition(null);
-                        this.setCurrentPosition(position);
-                        position.setVehicleInPosition(this);
-                        return this;
-                }
+                this.getCurrentPosition().setVehicleInPosition(null);
+                this.setCurrentPosition(position);
+                position.setVehicleInPosition(this);
+                return position;
             }
         }
         return null;
     }
 
+    public void loadShelf(Shelf shelf){
+       if(this instanceof AGC){
+           shelf.addToShelf(((AGC) this).getCurrentCargo());
+       }
+       if (this instanceof TugVehicle){
+           shelf.addToShelf(((TugVehicle) this).getTowedAGC().getCurrentCargo());
+       }
+       if(this instanceof ULC){
+           shelf.addToShelf(((ULC) this).getCurrentCargo());
+       }
+    }
 
-    public Vehicle moveRight(List<Position> positions) {
+    public Position moveRight(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
         }
@@ -87,24 +83,16 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if ((position.getX() == currentX + 1) && position.getY() == currentY) {
-                switch (position.getName()) {
-                    case "Wall":
-                    case "Shelf":
-                    case "Collect":
-                    case "Delivery":
-                        return null;
-                    case "Floor":
                         this.getCurrentPosition().setVehicleInPosition(null);
                         this.setCurrentPosition(position);
                         position.setVehicleInPosition(this);
-                        return this;
+                        return position;
                 }
-            }
         }
         return null;
     }
 
-    public Vehicle moveLeft(List<Position> positions) {
+    public Position moveLeft(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
         }
@@ -114,18 +102,10 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if ((position.getX() == currentX - 1) && position.getY() == currentY) {
-                switch (position.getName()) {
-                    case "Wall":
-                    case "Shelf":
-                    case "Collect":
-                    case "Delivery":
-                        return null;
-                    case "Floor":
-                        this.getCurrentPosition().setVehicleInPosition(null);
-                        this.setCurrentPosition(position);
-                        position.setVehicleInPosition(this);
-                        return this;
-                }
+                this.getCurrentPosition().setVehicleInPosition(null);
+                this.setCurrentPosition(position);
+                position.setVehicleInPosition(this);
+                return position;
             }
         }
         return null;

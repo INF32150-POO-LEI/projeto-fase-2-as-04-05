@@ -40,8 +40,6 @@ public class Position {
         return name;
     }
 
-
-
     /**
      * Returns the maximum number of vehicles allowed in this position.
      *
