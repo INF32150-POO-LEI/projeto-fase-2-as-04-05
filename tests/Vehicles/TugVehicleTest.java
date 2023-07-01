@@ -1,4 +1,6 @@
 package Vehicles;
+import Product.Bag;
+import Product.Box;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
