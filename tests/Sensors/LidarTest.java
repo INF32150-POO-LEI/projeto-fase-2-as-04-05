@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LidarTest {
-
     private Lidar lidar;
 
     @BeforeEach
@@ -37,6 +36,4 @@ class LidarTest {
         int angle = lidar.getAngle();
         assertEquals(90, angle);
     }
-
 }
-

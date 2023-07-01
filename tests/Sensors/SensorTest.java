@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SensorTest {
-
     private Sensor sensor;
 
     @BeforeEach
@@ -24,6 +23,4 @@ class SensorTest {
         String type = sensor.getType();
         assertEquals("New Sensor", type);
     }
-
 }
-

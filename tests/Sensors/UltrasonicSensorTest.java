@@ -50,6 +50,4 @@ class UltrasonicSensorTest {
         String type = ultrasonicSensor.getType();
         assertEquals("New Ultrasonic", type);
     }
-
 }
-

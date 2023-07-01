@@ -23,7 +23,6 @@ public class DeliveryCart extends Vehicle {
         this.currentWeight = 0;
     }
 
-
     @Override
     public String toString(){
         return "DC";
