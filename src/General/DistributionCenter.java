@@ -364,16 +364,16 @@ public class DistributionCenter {
             }
         }
 
-        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios."
-                + "\n- Sobraram: " + (packedItems.size() - currentItemsPacked) + " embalagens");
+        System.out.println("- Os veiculos disponiveis foram carregados com as respetivas embalagens/critérios.");
+              //  + "\n- Sobraram: " + (packedItems.size() - currentItemsPacked) + " embalagens");
 
-        for (Object item : packedItems) {
+      /*  for (Object item : packedItems) {
             if ((item instanceof Pallet && !((Pallet) item).isLoaded())
                     || (item instanceof Bag && !((Bag) item).isLoaded())
                     || (item instanceof Box && !((Box) item).isLoaded())) {
                 System.out.println(item.toString());
             }
-        }
+        }*/
     }
 
 

@@ -1,6 +1,7 @@
 package General;
 
 import Product.Product;
+import Vehicles.TugVehicle;
 import Vehicles.Vehicle;
 import javafx.application.Application;
 import javafx.geometry.Insets;
