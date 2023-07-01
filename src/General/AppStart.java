@@ -125,7 +125,7 @@ public class AppStart extends Application {
 
             if (position.get().getVehicleInPosition() != null) {
                 r = createVehicleRectangle();
-                Text vehicleText = createText(position.get().getVehicleInPosition().toString() + "  [" + position.get().getVehicleInPosition().getCargoQuantity() + "]", 10);
+                Text vehicleText = createText(position.get().getVehicleInPosition().toString() + "  [" + position.get().getVehicleInPosition().getCargoQuantity() + "]" + " [" + position.get().getVehicleInPosition().getWeight() + " kg]", 10);
                 StackPane vehicleStack = new StackPane(r, vehicleText);
                 vbox.getChildren().add(vehicleStack);
                 stackPane.get().setOnMouseClicked(e -> {
@@ -179,7 +179,7 @@ public class AppStart extends Application {
                                     StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
 
                                     gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
-                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]" + " [" + v.getWeight() + " kg]");
                                 }
                             }
 
@@ -232,7 +232,7 @@ public class AppStart extends Application {
                                     StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
 
                                     gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
-                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]" + " [" + v.getWeight() + " kg]");
                                 }
                             }
                         }
@@ -283,7 +283,7 @@ public class AppStart extends Application {
                                     StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
 
                                     gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
-                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]" + " [" + v.getWeight() + " kg]");
                                 }
                             }
                         }
@@ -337,7 +337,7 @@ public class AppStart extends Application {
                                     StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
 
                                     gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
-                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]" + " [" + v.getWeight() + " kg]");
                                 }
                             }
                         }

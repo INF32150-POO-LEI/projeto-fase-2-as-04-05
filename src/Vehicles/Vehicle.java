@@ -124,17 +124,37 @@ public abstract class Vehicle {
        if(this instanceof AGC){
            shelf.addToShelf(((AGC) this).getCurrentCargo());
            ((AGC) this).setCurrentCargo(null);
+           ((AGC) this).setCurrentWeight(0);
        }
        if (this instanceof TugVehicle){
            shelf.addToShelf(((TugVehicle) this).getTowedAGC().getCurrentCargo());
             ((TugVehicle) this).getTowedAGC().setCurrentCargo(null);
+           ((TugVehicle) this).getTowedAGC().setCurrentWeight(0);
        }
        if(this instanceof ULC){
            shelf.addToShelf(((ULC) this).getCurrentCargo());
               ((ULC) this).setCurrentCargo(null);
+              ((ULC) this).setCurrentWeight(0);
        }
     }
 
+    public int getWeight(){
+        if(this instanceof AGC){
+            return ((AGC) this).getCurrentWeight();
+        }
+        if(this instanceof TugVehicle){
+            if(((TugVehicle) this).getTowedAGC() == null){
+                return 0;
+            }
+            else{
+                return ((TugVehicle) this).getTowedAGC().getCurrentWeight();
+            }
+        }
+        if(this instanceof ULC){
+            return ((ULC) this).getCurrentWeight();
+        }
+        return 0;
+    }
     /**
      * Moves the vehicle to the right to the adjacent position in the given list of positions.
      *

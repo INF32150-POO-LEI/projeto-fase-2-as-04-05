@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ULC extends Vehicle {
     private List<Position> path;
+    private int currentWeight = 0;
     private List<Pallet> currentCargo;
     private static final int MAX_PALLETS = 1;
     private Position currentPosition;
@@ -58,6 +59,7 @@ public class ULC extends Vehicle {
     public boolean addPallet(Pallet p) {
         if(getCurrentCargo().size() < MAX_PALLETS) {
             getCurrentCargo().add(p);
+            currentWeight+=p.getCurrentWeight();
             return true;
         }
         else
@@ -116,5 +118,13 @@ public class ULC extends Vehicle {
      */
     public void setCurrentPosition(Position currentPosition) {
         this.currentPosition = currentPosition;
+    }
+
+    public int getCurrentWeight() {
+        return currentWeight;
+    }
+
+    public void setCurrentWeight(int currentWeight) {
+        this.currentWeight = currentWeight;
     }
 }
