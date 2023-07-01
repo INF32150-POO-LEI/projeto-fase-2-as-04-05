@@ -45,7 +45,12 @@ public class DeliveryCart extends Vehicle {
 
     @Override
     public int getCargoQuantity(){
-        return currentCargo.size();
+        if(currentCargo == null){
+            return 0;
+        }
+        else {
+            return currentCargo.size();
+        }
     }
 
     /**

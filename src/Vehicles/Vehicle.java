@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +47,24 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if (position.getX() == currentX && position.getY() == (currentY - 1)) {
-                this.getCurrentPosition().setVehicleInPosition(null);
-                this.setCurrentPosition(position);
-                position.setVehicleInPosition(this);
-                return position;
+                if(position.getName().equals("Shelf")){
+                    return position;
+                }
+                else if(position.getName().equals("Entry")){
+                    return position;
+                }
+                else if(position.getName().equals("Exit")){
+                    return position;
+                }
+                else if(position.getVehicleInPosition() != null){
+                    return null;
+                }
+                else{
+                    this.getCurrentPosition().setVehicleInPosition(null);
+                    this.setCurrentPosition(position);
+                    position.setVehicleInPosition(this);
+                    return position;
+                }
             }
         }
         return null;
@@ -65,10 +80,24 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if (position.getX() == currentX && position.getY() == (currentY + 1)) {
-                this.getCurrentPosition().setVehicleInPosition(null);
-                this.setCurrentPosition(position);
-                position.setVehicleInPosition(this);
-                return position;
+                if(position.getName().equals("Shelf")){
+                    return position;
+                }
+                else if(position.getName().equals("Entry")){
+                    return position;
+                }
+                else if(position.getName().equals("Exit")){
+                    return position;
+                }
+                else if(position.getVehicleInPosition() != null){
+                    return null;
+                }
+                else{
+                    this.getCurrentPosition().setVehicleInPosition(null);
+                    this.setCurrentPosition(position);
+                    position.setVehicleInPosition(this);
+                    return position;
+                }
             }
         }
         return null;
@@ -77,12 +106,15 @@ public abstract class Vehicle {
     public void loadShelf(Shelf shelf){
        if(this instanceof AGC){
            shelf.addToShelf(((AGC) this).getCurrentCargo());
+           ((AGC) this).setCurrentCargo(null);
        }
        if (this instanceof TugVehicle){
            shelf.addToShelf(((TugVehicle) this).getTowedAGC().getCurrentCargo());
+            ((TugVehicle) this).getTowedAGC().setCurrentCargo(null);
        }
        if(this instanceof ULC){
            shelf.addToShelf(((ULC) this).getCurrentCargo());
+              ((ULC) this).setCurrentCargo(null);
        }
     }
 
@@ -96,10 +128,24 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if ((position.getX() == currentX + 1) && position.getY() == currentY) {
-                        this.getCurrentPosition().setVehicleInPosition(null);
-                        this.setCurrentPosition(position);
-                        position.setVehicleInPosition(this);
-                        return position;
+                if(position.getName().equals("Shelf")){
+                    return position;
+                }
+                else if(position.getName().equals("Entry")){
+                    return position;
+                }
+                else if(position.getName().equals("Exit")){
+                    return position;
+                }
+                else if(position.getVehicleInPosition() != null){
+                    return null;
+                }
+                else{
+                    this.getCurrentPosition().setVehicleInPosition(null);
+                    this.setCurrentPosition(position);
+                    position.setVehicleInPosition(this);
+                    return position;
+                }
                 }
         }
         return null;
@@ -115,10 +161,24 @@ public abstract class Vehicle {
 
         for (Position position : positions) {
             if ((position.getX() == currentX - 1) && position.getY() == currentY) {
-                this.getCurrentPosition().setVehicleInPosition(null);
-                this.setCurrentPosition(position);
-                position.setVehicleInPosition(this);
-                return position;
+                if(position.getName().equals("Shelf")){
+                    return position;
+                }
+                else if(position.getName().equals("Entry")){
+                    return position;
+                }
+                else if(position.getName().equals("Exit")){
+                    return position;
+                }
+                else if(position.getVehicleInPosition() != null){
+                    return null;
+                }
+                else{
+                    this.getCurrentPosition().setVehicleInPosition(null);
+                    this.setCurrentPosition(position);
+                    position.setVehicleInPosition(this);
+                    return position;
+                }
             }
         }
         return null;

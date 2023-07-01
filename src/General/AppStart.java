@@ -7,12 +7,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import java.util.List;
@@ -135,6 +137,8 @@ public class AppStart extends Application {
                     whiteAreaStackPane.setAlignment(Pos.CENTER);
                     gridPane.add(whiteAreaStackPane, position.get().getX(), position.get().getY());
 
+
+                    Vehicle v = position.get().getVehicleInPosition();
                     button1.setOnAction(event -> {
                         Position newPosition = position.get().getVehicleInPosition().moveUpwards(positions);
 
@@ -146,9 +150,46 @@ public class AppStart extends Application {
                                     .orElse(null);
 
                             if(foundShelf != null){
-                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                                if(v.getCargoQuantity() == 0){
+                                    openPopup("Error: this vehicle is empty");
+                                }
+                                else{
+                                    v.loadShelf(foundShelf);
+                                    openPopup("Shelf loaded");
+
+                                    VBox vbox1 = new VBox();
+                                    Rectangle r2 = createProductsNumberRectangle();
+                                    vbox1.getChildren().add(createText("Shelf", 12));
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
+                                    vbox1.getChildren().add(vehicleStack2);
+                                    vbox1.setAlignment(Pos.CENTER);
+                                    vbox1.setSpacing(5);
+                                    StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
+
+                                    gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                }
                             }
+
                         }
+
+                        if (newPosition.getName().equals("Floor") || newPosition.getName().equals("Delivery") || newPosition.getName().equals("Collect")) {
+                            position.set(newPosition.getVehicleInPosition().getCurrentPosition());
+                            gridPane.getChildren().remove(stackPane.get());
+                            StackPane stackPane1 = new StackPane();
+                            stackPane1.setOnMouseClicked(stackPane.get().getOnMouseClicked());
+                            stackPane.set(stackPane1);
+                            stackPane.get().getChildren().addAll(vehicleStack, vehicleText);
+                            gridPane.add(stackPane.get(), newPosition.getX(), newPosition.getY());
+
+                        }
+
+                        if(newPosition.getName().equals("Exit")|| newPosition.getName().equals("Entry")) {
+                            openPopup("Error: You can't move the vehicle to the door");
+                        }
+
+
                     });
 
                     button2.setOnAction(event -> {
@@ -162,36 +203,95 @@ public class AppStart extends Application {
                                     .orElse(null);
 
                             if(foundShelf != null){
-                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                                if(v.getCargoQuantity() == 0){
+                                    openPopup("Error: this vehicle is empty");
+                                }
+                                else{
+                                    v.loadShelf(foundShelf);
+                                    openPopup("Shelf loaded");
+
+                                    VBox vbox1 = new VBox();
+                                    Rectangle r2 = createProductsNumberRectangle();
+                                    vbox1.getChildren().add(createText("Shelf", 12));
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
+                                    vbox1.getChildren().add(vehicleStack2);
+                                    vbox1.setAlignment(Pos.CENTER);
+                                    vbox1.setSpacing(5);
+                                    StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
+
+                                    gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                }
                             }
                         }
-                    });
 
-                    button3.setOnAction(event -> {
-                       Position newPosition = position.get().getVehicleInPosition().moveRight(positions);
-                       if(newPosition.getName().equals("Shelf")){
-                           Shelf foundShelf = shelves.stream()
-                                   .filter(shelf -> shelf.getPosition().equals(newPosition))
-                                   .findFirst()
-                                   .orElse(null);
-
-                           if(foundShelf != null){
-                               position.get().getVehicleInPosition().loadShelf(foundShelf);
-
-                           }
-                        }
-
-                        if (newPosition.getName().equals("Floor")) {
+                        if (newPosition.getName().equals("Floor") || newPosition.getName().equals("Delivery") || newPosition.getName().equals("Collect")) {
                             position.set(newPosition.getVehicleInPosition().getCurrentPosition());
                             gridPane.getChildren().remove(stackPane.get());
                             StackPane stackPane1 = new StackPane();
                             stackPane1.setOnMouseClicked(stackPane.get().getOnMouseClicked());
                             stackPane.set(stackPane1);
-                            stackPane.get().getChildren().addAll(createCollectRectangle(), vehicleStack, vehicleText);
+                            stackPane.get().getChildren().addAll(vehicleStack, vehicleText);
                             gridPane.add(stackPane.get(), newPosition.getX(), newPosition.getY());
-
-                            // Assign the existing event handler
                         }
+
+                        if(newPosition.getName().equals("Exit")|| newPosition.getName().equals("Entry")) {
+                            openPopup("Error: You can't move the vehicle to the door");
+                        }
+
+
+                    });
+
+                    button3.setOnAction(event -> {
+                       Position newPosition = position.get().getVehicleInPosition().moveRight(positions);
+
+                        if(newPosition.getName().equals("Shelf")){
+
+                            Shelf foundShelf = shelves.stream()
+                                    .filter(shelf -> shelf.getPosition().equals(newPosition))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if(foundShelf != null){
+                                if(v.getCargoQuantity() == 0){
+                                    openPopup("Error: this vehicle is empty");
+                                }
+                                else{
+                                    v.loadShelf(foundShelf);
+                                    openPopup("Shelf loaded");
+
+                                    VBox vbox1 = new VBox();
+                                    Rectangle r2 = createProductsNumberRectangle();
+                                    vbox1.getChildren().add(createText("Shelf", 12));
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
+                                    vbox1.getChildren().add(vehicleStack2);
+                                    vbox1.setAlignment(Pos.CENTER);
+                                    vbox1.setSpacing(5);
+                                    StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
+
+                                    gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                }
+                            }
+                        }
+
+                        if (newPosition.getName().equals("Floor") || newPosition.getName().equals("Delivery") || newPosition.getName().equals("Collect")) {
+                            position.set(newPosition.getVehicleInPosition().getCurrentPosition());
+                            gridPane.getChildren().remove(stackPane.get());
+                            StackPane stackPane1 = new StackPane();
+                            stackPane1.setOnMouseClicked(stackPane.get().getOnMouseClicked());
+                            stackPane.set(stackPane1);
+                            stackPane.get().getChildren().addAll(vehicleStack, vehicleText);
+                            gridPane.add(stackPane.get(), newPosition.getX(), newPosition.getY());
+                        }
+
+                        if(newPosition.getName().equals("Exit")|| newPosition.getName().equals("Entry")) {
+                            openPopup("Error: You can't move the vehicle to the door");
+                        }
+
+
 
 
 
@@ -208,9 +308,44 @@ public class AppStart extends Application {
                                     .orElse(null);
 
                             if(foundShelf != null){
-                                position.get().getVehicleInPosition().loadShelf(foundShelf);
+                                if(v.getCargoQuantity() == 0){
+                                    openPopup("Error: this vehicle is empty");
+                                }
+                                else{
+                                    v.loadShelf(foundShelf);
+                                    openPopup("Shelf loaded");
+
+                                    VBox vbox1 = new VBox();
+                                    Rectangle r2 = createProductsNumberRectangle();
+                                    vbox1.getChildren().add(createText("Shelf", 12));
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
+                                    vbox1.getChildren().add(vehicleStack2);
+                                    vbox1.setAlignment(Pos.CENTER);
+                                    vbox1.setSpacing(5);
+                                    StackPane stackPane2 = new StackPane(createShelfRectangle(), vbox1);
+
+                                    gridPane.add(stackPane2, newPosition.getX(), newPosition.getY());
+                                    vehicleText.setText(v.toString() + "  [" + v.getCargoQuantity() + "]");
+                                }
                             }
                         }
+
+                        if (newPosition.getName().equals("Floor") || newPosition.getName().equals("Delivery") || newPosition.getName().equals("Collect")) {
+                            position.set(newPosition.getVehicleInPosition().getCurrentPosition());
+                            gridPane.getChildren().remove(stackPane.get());
+                            StackPane stackPane1 = new StackPane();
+                            stackPane1.setOnMouseClicked(stackPane.get().getOnMouseClicked());
+                            stackPane.set(stackPane1);
+                            stackPane.get().getChildren().addAll(vehicleStack, vehicleText);
+                            gridPane.add(stackPane.get(), newPosition.getX(), newPosition.getY());
+                        }
+
+                        if(newPosition.getName().equals("Exit")|| newPosition.getName().equals("Entry")) {
+                            openPopup("Error: You can't move the vehicle to the door");
+                        }
+
+
                     });
                     lastClickedPosition = position.get();
                 });
@@ -294,6 +429,31 @@ public class AppStart extends Application {
         return rectangle;
     }
 
+    public static void openPopup(String message) {
+        // Create a new stage for the popup
+        Stage popupStage = new Stage();
 
+        // Set the modality so that the popup blocks interactions with the main window
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+
+        // Create the content of the popup
+        Label label = new Label(message);
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(event -> popupStage.close());
+
+        VBox content = new VBox(10);
+        content.setPadding(new Insets(10));
+        content.getChildren().addAll(label, closeButton);
+
+        // Create a scene with the content and set it to the popup stage
+        Scene scene = new Scene(content);
+        popupStage.setScene(scene);
+
+        // Set the title of the popup window
+        popupStage.setTitle("Popup");
+
+        // Show the popup
+        popupStage.showAndWait();
+    }
 
 }
