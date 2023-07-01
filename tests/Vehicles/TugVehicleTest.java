@@ -40,4 +40,31 @@ public class TugVehicleTest {
 
         assertEquals(1, quantity);
     }
+
+    @Test
+    public void testToString() {
+        assertEquals("TUG", tugVehicle.toString());
+    }
+
+    @Test
+    public void testGetTowedAGC() {
+        assertNull(tugVehicle.getTowedAGC());
+
+        DeliveryCart deliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(deliveryCart);
+        assertEquals(deliveryCart, tugVehicle.getTowedAGC());
+    }
+
+    @Test
+    public void testSetTowedAGC() {
+        assertNull(tugVehicle.getTowedAGC());
+
+        DeliveryCart deliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(deliveryCart);
+        assertEquals(deliveryCart, tugVehicle.getTowedAGC());
+
+        DeliveryCart newDeliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(newDeliveryCart);
+        assertEquals(newDeliveryCart, tugVehicle.getTowedAGC());
+    }
 }
