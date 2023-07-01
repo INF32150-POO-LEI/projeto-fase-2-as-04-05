@@ -2,17 +2,7 @@ package Vehicles;
 
 import General.Position;
 import General.Shelf;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 /**
  * Represents the superclass for all the other vehicles
  */
@@ -137,6 +127,15 @@ public abstract class Vehicle {
               ((ULC) this).setCurrentWeight(0);
        }
     }
+
+    /**
+     * Returns the weight of the vehicle.
+     * If the vehicle is an AGC, the current weight of the AGC is returned.
+     * If the vehicle is a TugVehicle, the weight of the towed AGC is returned if available, otherwise 0 is returned.
+     * If the vehicle is a ULC, the current weight of the ULC is returned.
+     *
+     * @return the weight of the vehicle
+     */
 
     public int getWeight(){
         if(this instanceof AGC){
