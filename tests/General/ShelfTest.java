@@ -3,6 +3,7 @@ import Product.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,5 +64,23 @@ public class ShelfTest {
         shelf.addToShelf(products);
 
         assertEquals(products, shelf.getProducts());
+    }
+
+    @Test
+    public void testGetPosition() {
+        Position position = new Position("Shelf 1", 0, 0);
+        Shelf shelf = new Shelf(position);
+        assertEquals(position, shelf.getPosition());
+    }
+
+    @Test
+    public void testSetPosition() {
+        Position position1 = new Position("Shelf 1", 0, 0);
+        Position position2 = new Position("Shelf 2", 1, 1);
+
+        Shelf shelf = new Shelf(position1);
+
+        shelf.setPosition(position2);
+        assertEquals(position2, shelf.getPosition());
     }
 }
