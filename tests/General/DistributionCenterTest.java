@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-
 public class DistributionCenterTest {
 
     private DistributionCenter distributionCenter;
@@ -217,5 +216,110 @@ public class DistributionCenterTest {
         // Assert that the packed items have been loaded onto the vehicles
         assertFalse(vehicle1.isAvailable());
         assertFalse(vehicle2.isAvailable());
+    }
+
+    @Test
+    public void testGetProducts() {
+        // Create a list of products
+        List<Product> products = new ArrayList<>();
+        Product product1 = new Product("Shirt", ProductType.CLOTHING);
+        Product product2 = new Product("Toy Car", ProductType.SMALL_TOY);
+        products.add(product1);
+        products.add(product2);
+
+        // Set the products in the distribution center
+        distributionCenter.setProducts(products);
+
+        // Retrieve the products from the distribution center
+        List<Product> retrievedProducts = distributionCenter.getProducts();
+
+        // Assert that the retrieved products are the same as the original products
+        assertEquals(products.size(), retrievedProducts.size());
+        assertTrue(retrievedProducts.contains(product1));
+        assertTrue(retrievedProducts.contains(product2));
+    }
+
+    @Test
+    public void testSetPositionsList() {
+        // Create a new list of positions
+        List<Position> positionsList = new ArrayList<>();
+        positionsList.add(new Position("Position 1", 1, 1));
+        positionsList.add(new Position("Position 2", 2, 2));
+        positionsList.add(new Position("Position 3", 3, 3));
+
+        // Set the positions list in the distribution center
+        distributionCenter.setPositionsList(positionsList);
+
+        // Retrieve the positions list from the distribution center
+        List<Position> retrievedPositionsList = distributionCenter.getPositionsList();
+
+        // Assert that the retrieved positions list is the same as the original positions list
+        assertEquals(positionsList.size(), retrievedPositionsList.size());
+        assertTrue(retrievedPositionsList.containsAll(positionsList));
+    }
+
+    @Test
+    public void testSetVehicles() {
+        // Create a list of vehicles
+        List<Vehicle> vehicles = new ArrayList<>();
+        Vehicle vehicle1 = new ULC();
+        Vehicle vehicle2 = new DeliveryCart();
+        vehicles.add(vehicle1);
+        vehicles.add(vehicle2);
+
+        // Set the vehicles in the distribution center
+        distributionCenter.setVehicles(vehicles);
+
+        // Retrieve the vehicles from the distribution center
+        List<Vehicle> retrievedVehicles = distributionCenter.getVehicles();
+
+        // Assert that the retrieved vehicles are the same as the original vehicles
+        assertEquals(vehicles.size(), retrievedVehicles.size());
+        assertTrue(retrievedVehicles.contains(vehicle1));
+        assertTrue(retrievedVehicles.contains(vehicle2));
+    }
+
+    @Test
+    public void testSetProducts() {
+        // Create a list of products
+        List<Product> products = new ArrayList<>();
+        Product product1 = new Product("Shirt", ProductType.CLOTHING);
+        Product product2 = new Product("Toy Car", ProductType.SMALL_TOY);
+        products.add(product1);
+        products.add(product2);
+
+        // Set the products in the distribution center
+        distributionCenter.setProducts(products);
+
+        // Retrieve the products from the distribution center
+        List<Product> retrievedProducts = distributionCenter.getProducts();
+
+        // Assert that the retrieved products are the same as the original products
+        assertEquals(products.size(), retrievedProducts.size());
+        assertTrue(retrievedProducts.contains(product1));
+        assertTrue(retrievedProducts.contains(product2));
+    }
+
+    @Test
+    public void testSetShelves() {
+        // Create a list of shelves
+        List<Shelf> shelves = new ArrayList<>();
+        Position position1 = new Position("Position1", 0, 0);
+        Position position2 = new Position("Position12", 1, 1);
+        Shelf shelf1 = new Shelf(position1);
+        Shelf shelf2 = new Shelf(position2);
+        shelves.add(shelf1);
+        shelves.add(shelf2);
+
+        // Set the shelves in the distribution center
+        distributionCenter.setShelves(shelves);
+
+        // Retrieve the shelves from the distribution center
+        List<Shelf> retrievedShelves = distributionCenter.getShelves();
+
+        // Assert that the retrieved shelves are the same as the original shelves
+        assertEquals(shelves.size(), retrievedShelves.size());
+        assertTrue(retrievedShelves.contains(shelf1));
+        assertTrue(retrievedShelves.contains(shelf2));
     }
 }
