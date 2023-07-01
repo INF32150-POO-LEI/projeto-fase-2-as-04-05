@@ -1,8 +1,7 @@
 package General;
 
 import General.Position;
-import Product.Product;
-
+import Product.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,22 @@ public class Shelf {
     public Shelf(Position position) {
         this.position = position;
         this.products = new ArrayList<>();
+    }
+
+    public int getWeight(){
+        int weight = 0;
+        for(int i = 0; i < products.size(); i++){
+            if (products.get(i) instanceof Pallet){
+                weight += ((Pallet) products.get(i)).getCurrentWeight();
+            }
+            if (products.get(i) instanceof Box){
+                weight += ((Box) products.get(i)).getCurrentWeight();
+            }
+            if (products.get(i) instanceof Bag){
+                weight += ((Bag) products.get(i)).getCurrentWeight();
+            }
+        }
+        return weight;
     }
 
     /**

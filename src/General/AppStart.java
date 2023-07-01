@@ -93,7 +93,7 @@ public class AppStart extends Application {
                         if (shelves.get(j).getPosition().equals(positions.get(i))) {
                             r = createProductsNumberRectangle();
                             vbox.getChildren().add(createText("Shelf", 12));
-                            Text vehicleText = createText("[" + shelves.get(j).getProducts().size() + "]", 10);
+                            Text vehicleText = createText("[" + shelves.get(j).getProducts().size() + "] [" + shelves.get(j).getWeight() + " kg]", 10);
                             StackPane vehicleStack = new StackPane(r, vehicleText);
                             vbox.getChildren().add(vehicleStack);
                             vbox.setAlignment(Pos.CENTER);
@@ -171,7 +171,7 @@ public class AppStart extends Application {
                                     VBox vbox1 = new VBox();
                                     Rectangle r2 = createProductsNumberRectangle();
                                     vbox1.getChildren().add(createText("Shelf", 12));
-                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "] [" + foundShelf.getWeight() + " kg]", 10);
                                     StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
                                     vbox1.getChildren().add(vehicleStack2);
                                     vbox1.setAlignment(Pos.CENTER);
@@ -224,7 +224,7 @@ public class AppStart extends Application {
                                     VBox vbox1 = new VBox();
                                     Rectangle r2 = createProductsNumberRectangle();
                                     vbox1.getChildren().add(createText("Shelf", 12));
-                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "] [" + foundShelf.getWeight() + " kg]", 10);
                                     StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
                                     vbox1.getChildren().add(vehicleStack2);
                                     vbox1.setAlignment(Pos.CENTER);
@@ -275,7 +275,7 @@ public class AppStart extends Application {
                                     VBox vbox1 = new VBox();
                                     Rectangle r2 = createProductsNumberRectangle();
                                     vbox1.getChildren().add(createText("Shelf", 12));
-                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "]", 10);
+                                    Text vehicleText2 = createText("[" + foundShelf.getProducts().size() + "] [" + foundShelf.getWeight() + " kg]", 10);
                                     StackPane vehicleStack2 = new StackPane(r2, vehicleText2);
                                     vbox1.getChildren().add(vehicleStack2);
                                     vbox1.setAlignment(Pos.CENTER);
@@ -408,7 +408,7 @@ public class AppStart extends Application {
      * @return the created products number rectangle
      */
     private Rectangle createProductsNumberRectangle() {
-        Rectangle rectangle = new Rectangle(30, 10);
+        Rectangle rectangle = new Rectangle(40, 10);
         rectangle.setFill(Color.LIGHTBLUE);
         return rectangle;
     }
