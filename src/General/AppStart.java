@@ -64,7 +64,7 @@ public class AppStart extends Application {
         List<Vehicle> vehicles = vehiclesFile.readFromCSV();
         List<Position> positions = distributionCenter.getPositionsList();
         List packedItems = distributionCenter.packProducts(productList);
-        System.out.println("\n- Numero de embalagens:" + packedItems.size());
+       // System.out.println("\n- Numero de embalagens:" + packedItems.size());
         distributionCenter.setVehiclesStartingPositions(vehicles, positions);
         distributionCenter.loadVehicles(packedItems, vehicles);
 
@@ -408,7 +408,7 @@ public class AppStart extends Application {
      * @return the created products number rectangle
      */
     private Rectangle createProductsNumberRectangle() {
-        Rectangle rectangle = new Rectangle(40, 10);
+        Rectangle rectangle = new Rectangle(50, 10);
         rectangle.setFill(Color.LIGHTBLUE);
         return rectangle;
     }
@@ -430,7 +430,7 @@ public class AppStart extends Application {
      * @return the created shelf rectangle
      */
     private Rectangle createShelfRectangle() {
-        Rectangle rectangle = new Rectangle(40, 40);
+        Rectangle rectangle = new Rectangle(50, 40);
         rectangle.setFill(Color.BLUE);
         return rectangle;
     }
