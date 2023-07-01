@@ -1,4 +1,6 @@
 package Vehicles;
+import Product.Bag;
+import Product.Box;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +21,7 @@ public class TugVehicleTest {
     void putDCIntoTugVehicle() {
         DeliveryCart dc = new DeliveryCart();
         List<Vehicle> vehicles = new ArrayList<>();
+        dc.setAvailableStatus(true);
         vehicles.add(dc);
 
         tugVehicle.putDCIntoTugVehicle(vehicles);
@@ -39,5 +42,32 @@ public class TugVehicleTest {
         quantity = tugVehicle.getCargoQuantity();
 
         assertEquals(1, quantity);
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals("TUG", tugVehicle.toString());
+    }
+
+    @Test
+    public void testGetTowedAGC() {
+        assertNull(tugVehicle.getTowedAGC());
+
+        DeliveryCart deliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(deliveryCart);
+        assertEquals(deliveryCart, tugVehicle.getTowedAGC());
+    }
+
+    @Test
+    public void testSetTowedAGC() {
+        assertNull(tugVehicle.getTowedAGC());
+
+        DeliveryCart deliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(deliveryCart);
+        assertEquals(deliveryCart, tugVehicle.getTowedAGC());
+
+        DeliveryCart newDeliveryCart = new DeliveryCart();
+        tugVehicle.setTowedAGC(newDeliveryCart);
+        assertEquals(newDeliveryCart, tugVehicle.getTowedAGC());
     }
 }

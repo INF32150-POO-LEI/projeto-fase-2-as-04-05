@@ -25,40 +25,27 @@ public class PositionTest {
 
     @Test
     public void testAddToPosition() {
+        Position position = new Position("Position 1", 0, 0);
+
+        AGC agc = new AGC();
+        TugVehicle tugVehicle = new TugVehicle();
+
+        boolean addedToPosition = position.addToPosition(agc);
+        assertTrue(addedToPosition);
+        addedToPosition = position.addToPosition(tugVehicle);
+        assertFalse(addedToPosition);
     }
 
     @Test
     public void testGetName() {
         Position position = new Position("Test Position", 0, 0);
-
-        // Verify the name of the position
         assertEquals("Test Position", position.getName());
     }
 
     @Test
-    public void testGetListOfVehicles() {
-
-    }
-
-    @Test
     public void testGetMaxVehicles() {
-        int expectedMaxVehicles = 2;
         Position position = new Position("Test Position", 0, 0);
-
-        // Verify the maximum number of vehicles in the position
-        assertEquals(expectedMaxVehicles, position.getMaxVehicles());
-    }
-
-    @Test
-    public void testSetMaxVehicles() {
-        int expectedMaxVehicles = 5;
-        Position position = new Position("Test Position", 0, 0);
-
-        // Set the maximum number of vehicles in the position
-        position.setMaxVehicles(expectedMaxVehicles);
-
-        // Verify that the maximum number of vehicles is set correctly
-        assertEquals(expectedMaxVehicles, position.getMaxVehicles());
+        assertEquals(1, position.getMaxVehicles());
     }
 
     @Test
@@ -111,5 +98,28 @@ public class PositionTest {
         position.setY(newY);
 
         assertEquals(newY, position.getY());
+    }
+
+    @Test
+    public void testGetVehicleInPosition() {
+        Position position1 = new Position("Position 1", 0, 0);
+        Position position2 = new Position("Position 2", 1, 1);
+
+        AGC agc = new AGC();
+        TugVehicle tugVehicle = new TugVehicle();
+
+        position1.addToPosition(agc);
+        position2.addToPosition(tugVehicle);
+
+        assertEquals(agc, position1.getVehicleInPosition());
+        assertEquals(tugVehicle, position2.getVehicleInPosition());
+    }
+
+    @Test
+    public void testSetVehicleInPosition() {
+        Position position = new Position("Position", 0, 0);
+        AGC agc = new AGC();
+        position.setVehicleInPosition(agc);
+        assertEquals(agc, position.getVehicleInPosition());
     }
 }

@@ -57,6 +57,7 @@ public class Position {
      */
     public boolean addToPosition(Vehicle vehicle){
         if(vehicle.toString() == "DC"){
+            vehicle.setCurrentPosition(this);
             return true;
         }
 
@@ -65,7 +66,7 @@ public class Position {
             vehicle.setCurrentPosition(this);
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -128,6 +129,4 @@ public class Position {
     public void setY(int y) {
         this.y = y;
     }
-
-
 }
