@@ -125,9 +125,6 @@ public abstract class Vehicle {
     }
 
 
-
-    public abstract int getCargoQuantity();
-
     public boolean isAvailable(){
         if(available == true)
             return true;
