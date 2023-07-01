@@ -100,11 +100,6 @@ public class DistributionCenterTest {
     }
 
     @Test
-    public void testLoadVehicles() {
-
-    }
-
-    @Test
     public void testConstructor() {
         assertNotNull(distributionCenter);
     }
@@ -134,11 +129,6 @@ public class DistributionCenterTest {
     }
 
     @Test
-    public void testPrintHowManyAvailableVehicles() {
-        }
-
-
-    @Test
     public void countPackedItemsResults() {
         List<Object> packedItems = new ArrayList<>();
         packedItems.add(new Pallet(10,10));
@@ -150,7 +140,8 @@ public class DistributionCenterTest {
         packedItems.add(new Box(2));
         packedItems.add(new Box(2));
 
-        String expectedResults = "2 pallets (Cada pallet tem 100kg de peso máximo e um máximo de 10 caixas de madeira tendo cada caixa de madeira presente um peso máximo de 10kg)\n" +
+        String expectedResults = "\nTotal de embalagens: 8\n" +
+                "2 pallets (Cada pallet tem 100kg de peso máximo e um máximo de 10 caixas de madeira tendo cada caixa de madeira presente um peso máximo de 10kg)\n" +
                 "2 bags (Cada bag tem um peso máximo de 2kg)\n" +
                 "4 boxes (Cada caixa tem um máximo de 5kg)\n";
 
@@ -159,6 +150,72 @@ public class DistributionCenterTest {
         assertEquals(expectedResults, actualResults, "The countPackedItemsResults output should match the expected results");
     }
 
+    @Test
+    public void testSetVehiclesStartingPositions() {
+        // Create a list of vehicles
+        List<Vehicle> vehicles = new ArrayList<>();
+        Vehicle vehicle1 = new ULC();
+        Vehicle vehicle2 = new DeliveryCart();
+        vehicles.add(vehicle1);
+        vehicles.add(vehicle2);
 
+        // Set the starting positions for the vehicles
+        distributionCenter.setVehiclesStartingPositions(vehicles, distributionCenter.getPositionsList());
 
+        // Assert that the vehicles have been assigned starting positions
+        assertNotNull(vehicle1.getCurrentPosition());
+        assertNotNull(vehicle2.getCurrentPosition());
+    }
+
+    @Test
+    public void testPrintHowManyAvailableVehicles() {
+        // Create a list of vehicles
+        List<Vehicle> vehicles = new ArrayList<>();
+        Vehicle vehicle1 = new ULC();
+        Vehicle vehicle2 = new DeliveryCart();
+        Vehicle vehicle3 = new TugVehicle();
+        vehicles.add(vehicle1);
+        vehicles.add(vehicle2);
+        vehicles.add(vehicle3);
+
+        // Set the availability of vehicles
+        vehicle1.setAvailableStatus(true);
+        vehicle2.setAvailableStatus(false);
+        vehicle3.setAvailableStatus(true);
+
+        // Call the method to get the available vehicles information
+        String result = distributionCenter.printHowManyAvailableVehicles(vehicles);
+
+        // Assert that the result string contains the correct information
+        assertTrue(result.contains("2 veiculos"));
+        assertTrue(result.contains("1 do tipo ULC"));
+        assertTrue(result.contains("0 do tipo delivery cart"));
+        assertTrue(result.contains("1 do tipo tug vehicle"));
+    }
+
+    @Test
+    public void testLoadVehicles() {
+        // Create a list of packed items
+        List<Object> packedItems = new ArrayList<>();
+        Pallet pallet = new Pallet(100, 10);
+        Bag bag = new Bag(2);
+        Box box = new Box(5);
+        packedItems.add(pallet);
+        packedItems.add(bag);
+        packedItems.add(box);
+
+        // Create a list of vehicles
+        List<Vehicle> vehicles = new ArrayList<>();
+        Vehicle vehicle1 = new ULC();
+        Vehicle vehicle2 = new DeliveryCart();
+        vehicles.add(vehicle1);
+        vehicles.add(vehicle2);
+
+        // Load the packed items onto the vehicles
+        distributionCenter.loadVehicles(packedItems, vehicles);
+
+        // Assert that the packed items have been loaded onto the vehicles
+        assertFalse(vehicle1.isAvailable());
+        assertFalse(vehicle2.isAvailable());
+    }
 }
