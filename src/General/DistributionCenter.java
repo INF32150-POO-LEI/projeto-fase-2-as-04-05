@@ -92,6 +92,13 @@ public class DistributionCenter {
         return packedItems;
     }
 
+    /**
+     * Adds a product to the list of packed items, using a card box if available.
+     * If no existing card box is available, a new card box is created and used.
+     *
+     * @param packedItems the list of packed items to add the product to
+     * @param p the product to be added to the packed items list
+     */
     public void addToCardBoxes(List<Object> packedItems, Product p) {
         boolean addedToExistingCardBox = false;
 
@@ -116,6 +123,12 @@ public class DistributionCenter {
         }
     }
 
+    /**
+     * Adds card boxes from the packed items list to pallets.
+     * If a card box can't fit in the current pallet, a new pallet is created and used.
+     *
+     * @param packedItems the list of packed items containing card boxes
+     */
     public void addCardBoxesToPallets(List<Object> packedItems) {
         if (countCardBoxes(packedItems) > 0) {
             Pallet pallet = new Pallet(100, 10);
@@ -137,6 +150,12 @@ public class DistributionCenter {
         }
     }
 
+    /**
+     * Counts the number of card boxes in the packed items list.
+     *
+     * @param packedItems the list of packed items
+     * @return the total count of card boxes
+     */
     public int countCardBoxes(List packedItems){
          int total = 0;
          for(Object o : packedItems){
@@ -275,6 +294,13 @@ public class DistributionCenter {
                 "\n" + agc + " do tipo AGC";
     }
 
+    /**
+     * Finds available vehicles of a specific type from the given list of vehicles.
+     *
+     * @param vehicles the list of vehicles to search from
+     * @param vehicleType the class representing the type of vehicles to find
+     * @return a list of available vehicles of the specified type
+     */
     public List<Vehicle> findVehicles(List<Vehicle> vehicles, Class<?> vehicleType) {
         List<Vehicle> availableVehicles = vehicles.stream()
                 .filter(vehicle -> vehicleType.isInstance(vehicle) && vehicle.isAvailable())

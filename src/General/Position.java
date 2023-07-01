@@ -49,6 +49,12 @@ public class Position {
         return MAX_VEHICLES;
     }
 
+    /**
+     * Adds a vehicle to the current position.
+     *
+     * @param vehicle the vehicle to be added
+     * @return true if the vehicle was successfully added, false otherwise
+     */
     public boolean addToPosition(Vehicle vehicle){
         if(vehicle.toString() == "DC"){
             return true;
@@ -73,10 +79,20 @@ public class Position {
         this.name = name;
     }
 
+    /**
+     * Retrieves the vehicle currently in the position.
+     *
+     * @return the vehicle in the position, or null if no vehicle is present
+     */
     public Vehicle getVehicleInPosition() {
         return vehicleInPosition;
     }
 
+    /**
+     * Sets the vehicle in the position.
+     *
+     * @param vehicleInPosition the vehicle to be set in the position
+     */
     public void setVehicleInPosition(Vehicle vehicleInPosition) {
         this.vehicleInPosition = vehicleInPosition;
     }

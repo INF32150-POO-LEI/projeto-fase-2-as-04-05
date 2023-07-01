@@ -11,7 +11,7 @@ public class TugVehicle extends Vehicle{
     private DeliveryCart towedAGC;
 
     /**
-     * Constructs a new TugVehicle object with the specified current position.
+     * Constructs a new TugVehicle object
      *
      */
     public TugVehicle() {
@@ -34,11 +34,21 @@ public class TugVehicle extends Vehicle{
         }
     }
 
+    /**
+     * Returns a string representation of the vehicle.
+     *
+     * @return a string representation of the vehicle
+     */
     @Override
     public String toString() {
         return "TUG";
     }
 
+    /**
+     * Returns the quantity of cargo in the vehicle.
+     *
+     * @return the quantity of cargo in the vehicle
+     */
     @Override
     public int getCargoQuantity(){
         if(getTowedAGC() != null){
@@ -49,10 +59,20 @@ public class TugVehicle extends Vehicle{
         }
     }
 
+    /**
+     * Gets the DeliveryCart that is towed by this vehicle.
+     *
+     * @return the DeliveryCart that is towed by this vehicle
+     */
     public DeliveryCart getTowedAGC() {
         return towedAGC;
     }
 
+    /**
+     * Sets the DeliveryCart to be towed by this vehicle.
+     *
+     * @param towedAGC the DeliveryCart to be towed by this vehicle
+     */
     public void setTowedAGC(DeliveryCart towedAGC) {
         this.towedAGC = towedAGC;
     }

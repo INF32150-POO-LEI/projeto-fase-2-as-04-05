@@ -12,8 +12,19 @@ public interface Packaging {
      * @return `true` if the product was successfully packed, `false` otherwise
      */
     public boolean pack(Product p);
+
+    /**
+     * Sets the loaded status of the object.
+     *
+     * @param loaded the loaded status to be set
+     */
     public void setLoaded(boolean loaded);
 
+    /**
+     * Checks if the object is loaded.
+     *
+     * @return true if the object is loaded, false otherwise
+     */
     public boolean isLoaded();
 
 }

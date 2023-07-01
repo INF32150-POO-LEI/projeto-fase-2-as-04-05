@@ -57,11 +57,21 @@ public class Bag implements Packaging {
         }
     }
 
+    /**
+     * Sets the loaded status of the object.
+     *
+     * @param loaded the loaded status to be set
+     */
     @Override
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
 
+    /**
+     * Checks if the object is loaded.
+     *
+     * @return true if the object is loaded, false otherwise
+     */
     @Override
     public boolean isLoaded() {
         return loaded;

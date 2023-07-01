@@ -16,21 +16,37 @@ public class DeliveryCart extends Vehicle {
     private List currentCargo;
 
     /**
-     * Constructs a new DeliveryCart object with the specified current position.
+     * Constructs a new DeliveryCart
      */
     public DeliveryCart() {
         this.currentCargo = new ArrayList<>();
         this.currentWeight = 0;
     }
 
+    /**
+     * Returns a string representation of the vehicle.
+     *
+     * @return a string representation of the vehicle
+     */
     @Override
     public String toString(){
         return "DC";
     }
+
+    /**
+     * Sets the tugged status of the vehicle.
+     *
+     * @param status the tugged status to set
+     */
     public void setTugged(boolean status) {
         this.isTugged = status;
     }
 
+    /**
+     * Checks if the vehicle is tugged.
+     *
+     * @return true if the vehicle is tugged, false otherwise
+     */
     public boolean isTugged() {
         return isTugged;
     }
@@ -43,6 +59,11 @@ public class DeliveryCart extends Vehicle {
         return currentCargo;
     }
 
+    /**
+     * Returns the quantity of cargo in the vehicle.
+     *
+     * @return the quantity of cargo in the vehicle
+     */
     @Override
     public int getCargoQuantity(){
         if(currentCargo == null){

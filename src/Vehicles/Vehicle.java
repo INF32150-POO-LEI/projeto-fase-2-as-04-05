@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Represents a vehicle with a unique ID, vehicle type, and associated equipment.
+ * Represents the superclass for all the other vehicles
  */
 
 public abstract class Vehicle {
@@ -37,6 +37,12 @@ public abstract class Vehicle {
         available = status;
     }
 
+    /**
+     * Moves the vehicle upwards to the adjacent position in the given list of positions.
+     *
+     * @param positions the list of positions to check for an upward movement
+     * @return the new position if a valid upward movement is possible, otherwise null
+     */
     public Position moveUpwards(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
@@ -70,6 +76,12 @@ public abstract class Vehicle {
         return null;
     }
 
+    /**
+     * Moves the vehicle downwards to the adjacent position in the given list of positions.
+     *
+     * @param positions the list of positions to check for a downward movement
+     * @return the new position if a valid downward movement is possible, otherwise null
+     */
     public Position moveDownwards(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
@@ -103,6 +115,11 @@ public abstract class Vehicle {
         return null;
     }
 
+    /**
+     * Loads the given shelf by transferring the current cargo of the vehicle to the shelf.
+     *
+     * @param shelf the shelf to be loaded
+     */
     public void loadShelf(Shelf shelf){
        if(this instanceof AGC){
            shelf.addToShelf(((AGC) this).getCurrentCargo());
@@ -118,6 +135,12 @@ public abstract class Vehicle {
        }
     }
 
+    /**
+     * Moves the vehicle to the right to the adjacent position in the given list of positions.
+     *
+     * @param positions the list of positions to check for a right movement
+     * @return the new position if a valid right movement is possible, otherwise null
+     */
     public Position moveRight(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
@@ -151,6 +174,12 @@ public abstract class Vehicle {
         return null;
     }
 
+    /**
+     * Moves the vehicle to the left to the adjacent position in the given list of positions.
+     *
+     * @param positions the list of positions to check for a left movement
+     * @return the new position if a valid left movement is possible, otherwise null
+     */
     public Position moveLeft(List<Position> positions) {
         if (this.getCurrentPosition() == null || positions == null) {
             return null;
@@ -184,8 +213,11 @@ public abstract class Vehicle {
         return null;
     }
 
-
-
+    /**
+     * Checks if the vehicle is available.
+     *
+     * @return true if the vehicle is available, false otherwise
+     */
     public boolean isAvailable(){
         if(available == true)
             return true;

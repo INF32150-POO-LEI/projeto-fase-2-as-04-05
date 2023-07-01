@@ -33,10 +33,20 @@ public class AppStart extends Application {
     private StackPane whiteAreaStackPane; // Declare the white area StackPane as a field
     private Position lastClickedPosition;
 
+    /**
+     * The main entry point for the application.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Start method called when the application is launched.
+     *
+     * @param primaryStage the primary stage for the application
+     */
     @Override
     public void start(Stage primaryStage) {
         WarehouseCSV dimensionsFile = new WarehouseCSV();
@@ -370,68 +380,113 @@ public class AppStart extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Creates a vertical wall rectangle with a size of 40x20.
+     *
+     * @return the created vertical wall rectangle
+     */
     private Rectangle createVerticalWallRectangle() {
         Rectangle rectangle = new Rectangle(40, 20);
         rectangle.setFill(Color.DARKGRAY);
         return rectangle;
     }
 
+    /**
+     * Creates a vehicle rectangle with a size of 60x10.
+     *
+     * @return the created vehicle rectangle
+     */
     private Rectangle createVehicleRectangle() {
         Rectangle rectangle = new Rectangle(60, 10);
         rectangle.setFill(Color.LIGHTGREEN);
         return rectangle;
     }
 
+    /**
+     * Creates a rectangle for displaying the number of products with a size of 30x10.
+     *
+     * @return the created products number rectangle
+     */
     private Rectangle createProductsNumberRectangle() {
         Rectangle rectangle = new Rectangle(30, 10);
         rectangle.setFill(Color.LIGHTBLUE);
         return rectangle;
     }
 
+    /**
+     * Creates a horizontal wall rectangle with a size of 40x20.
+     *
+     * @return the created horizontal wall rectangle
+     */
     private Rectangle createHorizontalWallRectangle() {
         Rectangle rectangle = new Rectangle(40, 20);
         rectangle.setFill(Color.DARKGRAY);
         return rectangle;
     }
 
+    /**
+     * Creates a shelf rectangle with a size of 40x40.
+     *
+     * @return the created shelf rectangle
+     */
     private Rectangle createShelfRectangle() {
         Rectangle rectangle = new Rectangle(40, 40);
         rectangle.setFill(Color.BLUE);
         return rectangle;
     }
 
+    /**
+     * Creates a collect rectangle with a size of 60x40.
+     *
+     * @return the created collect rectangle
+     */
     private Rectangle createCollectRectangle() {
         Rectangle rectangle = new Rectangle(60, 40);
         rectangle.setFill(Color.GREEN);
         return rectangle;
     }
 
+    /**
+     * Creates a Text object with the given text and size.
+     *
+     * @param text1 the text to display
+     * @param size the font size of the text
+     * @return the created Text object
+     */
     private Text createText(String text1, int size) {
         Text text = new Text(text1);
         text.setFont(Font.font(size));
         return text;
     }
 
+    /**
+     * Creates a delivery rectangle with a size of 60x40.
+     *
+     * @return the created delivery rectangle
+     */
     private Rectangle createDeliveryRectangle() {
         Rectangle rectangle = new Rectangle(60, 40);
         rectangle.setFill(Color.RED);
         return rectangle;
     }
 
+    /**
+     * Creates an entry/exit rectangle with a size of 40x40.
+     *
+     * @return the created entry/exit rectangle
+     */
     private Rectangle createEntryExitRectangle() {
         Rectangle rectangle = new Rectangle(40, 40);
         rectangle.setFill(Color.YELLOW);
         return rectangle;
     }
 
-    private Rectangle createFloorRectangle() {
-        Rectangle rectangle = new Rectangle(40, 40);
-        rectangle.setFill(Color.LIGHTGREY);
-        return rectangle;
-    }
-
+    /**
+     * Opens a popup window with the given message.
+     *
+     * @param message the message to display in the popup window
+     */
     public static void openPopup(String message) {
-        // Create a new stage for the popup
         Stage popupStage = new Stage();
 
         // Set the modality so that the popup blocks interactions with the main window

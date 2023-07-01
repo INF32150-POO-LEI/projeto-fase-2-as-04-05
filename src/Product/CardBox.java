@@ -32,20 +32,40 @@ public class CardBox implements Packaging {
         this.productsInTheBox = new ArrayList<>();
     }
 
+    /**
+     * Sets the putIntoPallet status of the object.
+     *
+     * @param putIntoPallet the putIntoPallet status to be set
+     */
     public void putIntoPallet(boolean putIntoPallet) {
         this.putIntoPallet = putIntoPallet;
     }
+
+    /**
+     * Sets the loaded status of the object.
+     *
+     * @param loaded the loaded status to be set
+     */
     @Override
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
 
+    /**
+     * Checks if the object is loaded.
+     *
+     * @return true if the object is loaded, false otherwise
+     */
     @Override
     public boolean isLoaded() {
         return loaded;
     }
 
-
+    /**
+     * Checks if the object has been put into a pallet.
+     *
+     * @return true if the object has been put into a pallet, false otherwise
+     */
     public boolean getPutIntoPallet() {
         return putIntoPallet;
     }

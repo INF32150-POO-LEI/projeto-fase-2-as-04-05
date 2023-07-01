@@ -16,7 +16,7 @@ public class AGC extends Vehicle{
     private List currentCargo;
 
     /**
-     * Constructs a new AGC object with the specified positions.
+     * Constructs a new AGC
      */
     public AGC() {
         super();
@@ -40,6 +40,11 @@ public class AGC extends Vehicle{
         }
     }
 
+    /**
+     * Returns the quantity of cargo in the vehicle.
+     *
+     * @return the quantity of cargo in the vehicle
+     */
     @Override
     public int getCargoQuantity(){
         if(currentCargo == null){
@@ -49,6 +54,12 @@ public class AGC extends Vehicle{
             return currentCargo.size();
         }
     }
+
+    /**
+     * Returns a string representation of the vehicle.
+     *
+     * @return a string representation of the vehicle
+     */
     @Override
     public String toString() {
         return "AGC";
@@ -90,10 +101,20 @@ public class AGC extends Vehicle{
         return currentCargo;
     }
 
+    /**
+     * Sets the current weight of the vehicle.
+     *
+     * @param currentWeight the current weight of the vehicle
+     */
     public void setCurrentWeight(int currentWeight) {
         this.currentWeight = currentWeight;
     }
 
+    /**
+     * Sets the current cargo of the vehicle.
+     *
+     * @param currentCargo the current cargo of the vehicle
+     */
     public void setCurrentCargo(List currentCargo) {
         this.currentCargo = currentCargo;
     }

@@ -15,7 +15,7 @@ public class ULC extends Vehicle {
     private Position currentPosition;
 
     /**
-     * Constructs a new ULC object with the specified current position.
+     * Constructs a new ULC
      *
      */
     public ULC() {
@@ -24,6 +24,11 @@ public class ULC extends Vehicle {
         this.currentCargo = new ArrayList<>();
     }
 
+    /**
+     * Returns the quantity of cargo in the vehicle.
+     *
+     * @return the quantity of cargo in the vehicle
+     */
     @Override
     public int getCargoQuantity(){
         if(currentCargo == null){
@@ -34,6 +39,11 @@ public class ULC extends Vehicle {
         }
     }
 
+    /**
+     * Returns a string representation of the vehicle.
+     *
+     * @return a string representation of the vehicle
+     */
     @Override
     public String toString(){
         return "ULC";
